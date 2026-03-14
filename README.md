@@ -1,53 +1,40 @@
+# SyncMaster App
 
-# Sync Master (Python)
+![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)
+![Version](https://img.shields.io/badge/Version-v1.5.2-blue)
+![Plataforma](https://img.shields.io/badge/Plataforma-Linux-informational)
 
-Esta es la versión reescrita de Sync Master en Python con PyQt6.
+SyncMaster es una aplicacion de sincronizacion de archivos enfocada en simplicidad y confiabilidad, distribuida como AppImage para Linux.
 
-## Estructura
-El proyecto está contenido en la carpeta `SyncMasterPython`.
+## Caracteristicas principales
+- Sincronizacion bidireccional entre equipos y la nube.
+- Iconos dinamicos que reflejan el estado de la sincronizacion en tiempo real.
+- Bandeja del sistema para iniciar, pausar y ver el estado rapidamente.
+- Configuracion simple de carpetas locales y remotas.
+- Portabilidad total con AppImage (sin instaladores complejos).
 
-## Portabilidad
-La AppImage en sí es muy robusta y contiene los binarios necesarios (rclone y onedrive, ya que los incluí en el paquete).
-
-Para mover todo a otro equipo y mantener las cuentas conectadas, debes llevarte:
-
-La Aplicación:
-SyncMaster-x86_64.AppImage (El archivo ejecutable).
-Configuraciones Críticas (Donde están tus claves): Copia estas carpetas tal cual a la misma ubicación en el nuevo equipo (/home/tu_usuario/.config/):
-~/.config/sync_master/ (Configuración general de la App)
-~/.config/syncmaster/ (Configuración aislada de OneDrive)
-~/.config/rclone/ (Configuración de Google Drive)
-Si solo copias la AppImage, funcionará perfecto, pero tendrás que configurar las cuentas de nuevo desde cero.
-
-## Ejecución
-Para ejecutar la aplicación directamente sin empaquetar:
+## Como instalar en Linux
+1. Descarga la AppImage desde la seccion de Releases.
+2. Dale permisos de ejecucion:
 
 ```bash
-cd SyncMasterPython/AppDir
-./AppRun
+chmod +x SyncMaster-*.AppImage
 ```
 
-O si prefieres usar el entorno python del sistema directamente:
-```bash
-cd SyncMasterPython
-python3 main.py
-```
-Asegúrate de tener instaladas las dependencias: `PyQt6`.
-
-## Empaquetado como AppImage
-Debido a restricciones del entorno de desarrollo, el archivo `.AppImage` final no se pudo generar automáticamente, pero el directorio `AppDir` está completamente preparado.
-
-Para generar la AppImage final en tu sistema, asegúrate de tener `appimagetool` instalado y ejecuta:
+3. Ejecuta la aplicacion:
 
 ```bash
-cd SyncMasterPython
-./build.sh
+./SyncMaster-*.AppImage
 ```
-(Si falla el `build.sh` incluido, puedes descargar `appimagetool` y correr: `appimagetool AppDir SyncMaster-x86_64.AppImage`)
 
-## Características
-- **Interfaz Gráfica Python (PyQt6)**: Moderna y responsiva.
-- **Sincronización Independiente**: Temporizadores separados para OneDrive y Google Drive.
-- **Configuración**: Selección de carpetas locales y remotas.
-- **Bandeja del Sistema**: Minimizar, Restaurar, Sincronizar Todo.
-- **Dependencias Incluidas**: Los binarios de `rclone` y `onedrive` se han copiado a `AppDir/usr/bin` para portabilidad.
+## Requisitos
+Para ejecutar AppImages en distribuciones modernas (como Zorin o Ubuntu), solo necesitas FUSE instalado.
+
+Si tu distribucion requiere soporte FUSE para AppImage, instala el paquete correspondiente antes de ejecutar.
+
+## Releases
+Descargas y notas de version en:
+Releases: https://github.com/ferdcard-ux/SyncMaster-App/releases
+
+## Creditos
+SyncMaster esta desarrollado con un enfoque multiplataforma y un empaquetado pensado para entornos Linux.
