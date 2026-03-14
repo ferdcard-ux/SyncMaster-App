@@ -1,0 +1,21 @@
+# Entornos virtuales
+venv/
+ENV/
+env/
+
+# Archivos de empaquetado AppImage
+squashfs-root/
+appimagetool.AppImage
+runtime-x86_64
+SyncMaster-x86_64.AppImage
+*.AppImage
+SyncMaster.squashfs
+AppDir/
+
+# Logs y temporales
+*.log
+__pycache__/
+.cache/
+
+# Otros
+.vscode/
