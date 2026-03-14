@@ -1,21 +1,14 @@
-# Entornos virtuales
-venv/
-ENV/
-env/
+# 1. Bloquear absolutamente TODO por defecto
+/*
 
-# Archivos de empaquetado AppImage
-squashfs-root/
-appimagetool.AppImage
-runtime-x86_64
-SyncMaster-x86_64.AppImage
-*.AppImage
-SyncMaster.squashfs
-AppDir/
+# 2. Permitir ÚNICAMENTE los archivos de la vitrina (excepciones)
+!.gitignore
+!README.md
+!desplegar.sh
+!CHANGELOG.md
+!release_notes.md
 
-# Logs y temporales
-*.log
+# 3. Mantener bloqueados los temporales aunque se llamen igual
 __pycache__/
-.cache/
-
-# Otros
 .vscode/
+*.log
