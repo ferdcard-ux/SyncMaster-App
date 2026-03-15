@@ -1,13 +1,21 @@
 # Registro de Cambios - Sync Master
 
 ## [1.5.4] - 2026-03-15
+### Mejorado
+- **Se actualizó el monitor de cada servicio**: Ahora muestra “Estado: Sincronizando” y “Estado: En espera” con los colores ámbar y amarillo, y se reforzó el picker de estados (errores, pausado, activo, desactivado) para que siempre utilice estilos coherentes con el tema Dark.
+### Añadido
+- **La acción “Sincronizar servicios”**: Ahora fuerza el estado “Sincronizando” para cada servicio activo antes de lanzar el `sync`, conserva el efecto de enfoque del botón y vuelve a aplicarlo tras pulsarlo; el botón de “Pausar/Reanudar” usa el estilo amarillo cuando está en pausa y el verde cuando se reactiva.
+- **Implementación, monitor de estado**: Para que la interfaz reciba los estados correctos, los gestores `local`, `gdrive`, `onedrive` y cada servicio RClone emiten “Sincronizando” al iniciar un proceso y “En Espera” cuando quedan bloqueados, lo que alimenta correctamente el monitor de estado sin necesidad de tocar los logs.
+
 ### Añadido
 - **Tema Dark Renovado**: Toda la interfaz migró a un esquema #1E1E1E / #2D2D2D con tipografía más generosa (+1 pt en la UI, +2 pt en el log) y botones con borde delgado para mantener contraste sin sacrificar legibilidad.
 - **Filtro Inteligente y Standby de Logs**: El panel de actividad ahora muestra `[Servicio] En ejecución....` mientras no haya cambios y solo se llena con transferencias, eliminaciones, avisos NOTICE y errores reales; el resto del ruido queda oculto hasta que ocurre una transferencia.
 
-### Mejorado
+- ### Mejorado
 - **Gestión Selectiva de Caché RClone**: El botón "Limpiar Cache RClone" abre un diálogo con casillas por servicio (Local, Google Drive, OneDrive, Mega-Dev), borra la caché de bisync, pregunta si desea resincronizar ahora y, si se elige "No", programa el flag `--resync` para la siguiente ejecución automática de cada servicio.
-- **Auto-sanación y tolerancia Rclone**: Cada ciclo vuelve el estado visible a `Activo` y los errores de "cannot remove lockfile ... no such file or directory" ya no rompen la tarea (el `exit code 1` se ignora cuando ese es el único fallo); OneDrive, Local, GDrive y los servicios Rclone ahora preparan el flag `--resync` cuando se solicita y lo ejecutan sólo cuando es necesario.
+- **Contexto de sincronización más visible**: Cada servicio pasa a reportar “Estado: Sincronizando” cuando arranca y “Estado: En espera” cuando aguarda recursos disponibles, el botón “Sincronizar servicios” actualiza esos estados y mantiene el foco estilo Dark, y los botones “Pausar/Reanudar” usan amarillo mientras el servicio está detenido para mejorar el contraste.
+- **Estado y monitor alineados**: El monitor y los gestores ahora pintan “Estado: Sincronizando” en ámbar y “Estado: En espera” en amarillo con una paleta Dark consistente, el botón “Sincronizar servicios” establece ese estado antes de ejecutar los syncs y recupera el foco, y `local`, `gdrive`, `onedrive` y cada servicio RClone generan los estados correctos sin introducir ruido adicional en los logs.
+- **Auto-sanación y tolerancia Rclone**: Cada ciclo vuelve el estado visible a `Activo`, los comandos de bisync incluyen `--min-age 30s` y `--local-no-check-updated`, y los errores de "cannot remove lockfile ... no such file or directory" ya no rompen la tarea (el `exit code 1` se ignora cuando ese es el único fallo); OneDrive, Local, GDrive y los servicios Rclone ahora preparan el flag `--resync` cuando se solicita y lo ejecutan sólo cuando es necesario.
 
 ## [1.5.2] - 2026-03-13
 ### Añadido
