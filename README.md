@@ -1,7 +1,7 @@
 # SyncMaster App
 
 ![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)
-![Version](https://img.shields.io/badge/Version-v1.5.2-blue)
+![Version](https://img.shields.io/badge/Version-v1.5.4-blue)
 ![Plataforma](https://img.shields.io/badge/Plataforma-Linux-informational)
 
 SyncMaster es una aplicacion de sincronizacion de archivos enfocada en simplicidad y confiabilidad, distribuida como AppImage para Linux.
@@ -12,6 +12,14 @@ SyncMaster es una aplicacion de sincronizacion de archivos enfocada en simplicid
 - Bandeja del sistema para iniciar, pausar y ver el estado rapidamente.
 - Configuracion simple de carpetas locales y remotas.
 - Portabilidad total con AppImage (sin instaladores complejos).
+
+## Novedades de v1.5.4
+- **Interfaz Dark mejorada**: toda la UI ahora usa un fondo Gris Carbón (#1E1E1E) y tarjetas Gris Pizarra (#2D2D2D) con tipografía más grande (+1 pt en controles, +2 pt en el log) y botones de borde sutil que conservan contraste en reposo, enfoque y hover.
+- **Monitor de estado enriquecido**: cada servicio reporta “Estado: Sincronizando” (ámbar) cuando lanza tareas y “Estado: En espera” (amarillo) mientras aguarda recursos; los botones de pausa usan amarillo mientras el servicio está detenido para no perder visibilidad.
+- **Sincronización manual visible**: el botón “Sincronizar servicios” refleja el foco del tema Dark, marca el estado “Sincronizando” en los servicios listos y deja claro en la sección de estado qué servicios están ejecutándose.
+- **Log inteligente y standby**: el panel de actividad limpia automáticamente metadatos (Modtime, HashType, Building Path, etc.), muestra solo transferencias/Deleted/NOTICE/errores y mantiene un mensaje `[Servicio] En ejecución....` hasta que aparece nueva actividad relevante.
+- **Gestión inteligente de caché RClone**: la limpieza abre un diálogo con casillas por servicio (Local, GDrive, OneDrive y Mega-Dev), pregunta si re-sincronizar ahora y, si se opta por “No”, programa internamente `--resync` para la próxima ejecución.
+- **Robustez frente a lockfiles**: los comandos RClone incluyen `--min-age 30s` y `--local-no-check-updated`, ignoran el error `cannot remove lockfile ... no such file or directory` y consideran la tarea exitosa si ese es el único fallo, manteniendo el estado en “Activo”.
 
 ## Como instalar en Linux
 1. Descarga la AppImage desde la seccion de Releases.
