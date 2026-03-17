@@ -1,6 +1,6 @@
 # SyncMaster App
 
-![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-green.svg)
+![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)
 ![Version](https://img.shields.io/badge/Version-v1.5.4-blue)
 ![Plataforma](https://img.shields.io/badge/Plataforma-Linux-informational)
 
@@ -47,5 +47,11 @@ Releases: https://github.com/ferdcard-ux/SyncMaster-App/releases
 ## Creditos
 SyncMaster esta desarrollado con un enfoque multiplataforma y un empaquetado pensado para entornos Linux.
 
-## Términos de Uso
-Sync Master se distribuye bajo los términos de la Licencia Pública General GNU versión 3 (GPL v3). Eso significa que puedes usar, copiar, estudiar y modificar el software siempre que cualquier distribución (modificada o no) mantenga los mismos permisos y conserve las notas de copyright y licencia. El código fuente debe acompañar a cada copia en forma legible para humanos, y cualquier cambio debe ser divulgado con la misma licencia para garantizar la libertad de todos los usuarios.
+## Términos de Uso y Descargo de Responsabilidad (GNU GPL v3)
+
+Al utilizar o modificar **Sync Master**, aceptas los siguientes términos:
+
+1. **Garantía y Responsabilidad**: Según lo estipulado en las secciones 15, 16 y 17 de la Licencia GPL v3, este software se proporciona "tal cual", sin garantía de ningún tipo. El desarrollador no es responsable de cualquier daño o pérdida de datos derivados de su uso.
+2. **Filosofía Open Source**: Cualquier versión derivada o modificación que decidas distribuir debe ser publicada bajo esta misma licencia (GPL v3), garantizando que el software siga siendo libre para todos.
+3. **Privacidad de Datos**: Sync Master opera localmente. Tus credenciales de GDrive, OneDrive, Mega y cualquier otro servicio que decidas configurar, son gestionadas por Rclone o El cliente de OneDrive para Linux y almacenadas exclusivamente en tu sistema local.
+4. **Cumplimiento con Terceros**: Eres responsable de asegurar que tu uso de esta herramienta cumple con los términos de servicio de los proveedores de almacenamiento en la nube.
