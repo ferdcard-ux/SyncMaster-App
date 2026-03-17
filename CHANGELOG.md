@@ -6,6 +6,7 @@
 ### Mejorado
 - **Comandos conscientes del modo**: La generación de comandos incorpora el modo elegido y aplica `--min-age 30s` y `--local-no-check-updated` a la rutina completa; `bisync` sigue soportando `--resync`, mientras que `copy` y `sync` reinician sin ese flag y siguen ignorando lockfiles para no detener la tarea.
 - **Monitor con indicadores**: El monitor y las tarjetas ahora refrescan inmediatamente el texto del modo al guardar la configuración, y el selector estilizado del panel de settings (gris pizarra) ofrece tooltips descriptivos para cada opción.
+- **Guardia de APIs y concurrencia en la nube**: Los servicios RClone en la nube arrancan con `--transfers 2`, `--checkers 4`, `--tpslimit 5` y, cuando aplica, `--drive-chunk-size 64M`; si RClone responde con `Quota exceeded` pasamos a `Estado: Limitado (API)` (naranja), mostramos `[Servicio] API Saturada...` y pausamos los ciclos durante 5 minutos antes de reanudar automáticamente sin marcar error.
 
 ## [1.5.4] - 2026-03-15
 ### Añadido

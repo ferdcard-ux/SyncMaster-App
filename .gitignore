@@ -7,6 +7,7 @@
 !desplegar.sh
 !CHANGELOG.md
 !release_notes.md
+!USERGUIDE.md
 
 # 3. Mantener bloqueados los temporales aunque se llamen igual
 __pycache__/
