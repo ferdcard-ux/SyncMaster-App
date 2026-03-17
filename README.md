@@ -46,3 +46,6 @@ Releases: https://github.com/ferdcard-ux/SyncMaster-App/releases
 
 ## Creditos
 SyncMaster esta desarrollado con un enfoque multiplataforma y un empaquetado pensado para entornos Linux.
+
+## Términos de Uso
+Sync Master se distribuye bajo los términos de la Licencia Pública General GNU versión 3 (GPL v3). Eso significa que puedes usar, copiar, estudiar y modificar el software siempre que cualquier distribución (modificada o no) mantenga los mismos permisos y conserve las notas de copyright y licencia. El código fuente debe acompañar a cada copia en forma legible para humanos, y cualquier cambio debe ser divulgado con la misma licencia para garantizar la libertad de todos los usuarios.
