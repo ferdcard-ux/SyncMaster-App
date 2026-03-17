@@ -1,5 +1,12 @@
 # Registro de Cambios - Sync Master
 
+## [1.5.5] - 2026-03-17
+### Añadido
+- **Trifecta de sincronización Copy/Sync/Bisync**: Cada servicio basado en rclone (Local, Google Drive y los servicios personalizados) dispone de un selector que describe impactos y un sello en la tarjeta para mostrar si está en modo bisync, copy o sync (flecha vertical para unidireccional, ↔ para bidireccional). Un ligero ajuste en el padding mantiene el nuevo texto antes del botón de control.
+### Mejorado
+- **Comandos conscientes del modo**: La generación de comandos incorpora el modo elegido y aplica `--min-age 30s` y `--local-no-check-updated` a la rutina completa; `bisync` sigue soportando `--resync`, mientras que `copy` y `sync` reinician sin ese flag y siguen ignorando lockfiles para no detener la tarea.
+- **Monitor con indicadores**: El monitor y las tarjetas ahora refrescan inmediatamente el texto del modo al guardar la configuración, y el selector estilizado del panel de settings (gris pizarra) ofrece tooltips descriptivos para cada opción.
+
 ## [1.5.4] - 2026-03-15
 ### Añadido
 - **Tema Dark Renovado**: Toda la interfaz migró a un esquema #1E1E1E / #2D2D2D con tipografía más generosa (+1 pt en la UI, +2 pt en el log) y botones con borde delgado para mantener contraste sin sacrificar legibilidad.

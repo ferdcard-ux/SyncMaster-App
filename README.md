@@ -20,6 +20,7 @@ SyncMaster es una aplicacion de sincronizacion de archivos enfocada en simplicid
 - **Log inteligente y standby**: el panel de actividad limpia automáticamente metadatos (Modtime, HashType, Building Path, etc.), muestra solo transferencias/Deleted/NOTICE/errores y mantiene un mensaje `[Servicio] En ejecución....` hasta que aparece nueva actividad relevante.
 - **Gestión inteligente de caché RClone**: la limpieza abre un diálogo con casillas por servicio (Local, GDrive, OneDrive y Mega-Dev), pregunta si re-sincronizar ahora y, si se opta por “No”, programa internamente `--resync` para la próxima ejecución.
 - **Robustez frente a lockfiles**: los comandos RClone incluyen `--min-age 30s` y `--local-no-check-updated`, ignoran el error `cannot remove lockfile ... no such file or directory` y consideran la tarea exitosa si ese es el único fallo, manteniendo el estado en “Activo”.
+- **Trifecta de sincronización Copy/Sync/Bisync**: cada servicio rclone (Local, Google Drive y los servicios definidos por el usuario) puede elegir ahora entre los tres modos en el diálogo de configuración; el panel principal muestra el modo activo con un sello e iconos (↔ para bisync, ↑ para copy y ⇄ para sync), y la lógica de comandos respeta esas decisiones al construir los flags de `rclone`.
 
 ## Como instalar en Linux
 1. Descarga la AppImage desde la seccion de Releases.
