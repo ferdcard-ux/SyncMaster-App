@@ -38,13 +38,13 @@ Sync Master funciona como un wrapper propietario en Python sobre los binarios de
 
 El código también asegura que cada servicio tenga su propio estado (`Activo`, `Sincronizando`, `En Espera`, `Limitado (API)`) y que los cambios de modo (bisync/copy/sync) se propaguen desde `settings_dialog.py` hasta los comandos de Rclone. La ventana de monitoreo cubre todos los mensajes que pasan por el wrapper y solo expone los eventos relevantes.
 
-## Documentación y licencia de evaluación
-La entrega privada incluye `COPYRIGHT.txt`, `TERMS.md` y este `USERGUIDE.md`. El software se reparte bajo una Licencia de Evaluación Académica para instructores del SENA, que mantiene todos los derechos reservados y prohíbe redistribuciones sin autorización. La documentación explica cómo se integra Python con Rclone, las decisiones de diseño y el modelo de control original que respalda la interfaz propietaria.
+## Documentación y licencia de evaluación privada
+La entrega privada incluye `COPYRIGHT.txt`, `TERMS.md` y este `USERGUIDE.md`. El software se distribuye bajo una Licencia de Evaluación Privada / Propietaria de FerDev, que mantiene todos los derechos reservados y prohíbe redistribuciones no autorizadas. Aquí se explica cómo Python actúa como wrapper propietario sobre Rclone y cómo se mantiene el control de estados en la UI cerrada.
 
 ## Recomendaciones de despliegue
-1. Valida el binario `SyncMaster-v1.5.6-Private.AppImage` dentro del entorno autorizado antes de entregarlo a los instructores SENA.
-2. Revisa que las credenciales (tokens, SSH, `.env`) se mantengan fuera de los controles de código (ver `.gitignore`).
-3. Mantén la configuración de exclusiones y modos en `~/.config/sync_master/config.json`; la aplicación la sobrescribe cada vez que guardas.
+1. Valida el binario `SyncMaster-v1.5.6-Private.AppImage` en el entorno autorizado antes de conceder acceso a nuevos evaluadores.
+2. Asegura que los secretos (tokens, SSH, `.env`) permanezcan fuera de los repositorios (revisa `.gitignore`).
+3. Mantén los perfiles de exclusiones y modos en `~/.config/sync_master/config.json`; la aplicación sobrescribe los valores cada vez que guardas.
 
 ## Soporte y seguimiento
-Si hay incidencias, documenta el mensaje exacto del log y compártelo con el instructor principal o el responsable académico. La bandeja del sistema ofrece notificaciones críticas o advertencias para detectar errores de control, y la consola rastrea sólo las líneas que justifican una intervención.
+Si hay incidencias, documenta el mensaje exacto del log y compártelo con el responsable académico o el autor. La bandeja del sistema dispara notificaciones críticas o advertencias para detectar fallos de control, y la consola sólo muestra líneas relevantes que justifican una intervención.

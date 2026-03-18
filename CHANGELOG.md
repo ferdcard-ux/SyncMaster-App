@@ -2,11 +2,11 @@
 
 ## [1.5.6] - 2026-03-18
 ### Añadido
-- **Licencia privada y documentación académica**: se eliminó el texto GPL, se introdujo el archivo `COPYRIGHT.txt`, `TERMS.md` describe la Licencia de Evaluación Académica para instructores SENA y `USERGUIDE.md` ahora contiene la arquitectura del wrapper propietario sobre Rclone.
+- **Identidad Solución Propietaria FerDev**: `COPYRIGHT.txt`, `TERMS.md` y `USERGUIDE.md` presentan la arquitectura del wrapper propietario sobre Rclone y la licencia de evaluación privada con derechos reservados.
 ### Reemplazado
-- **Marca y brand privado**: `README.md` se enfocó en requisitos de instalación y manuales internos, se actualizó `version.py` a v1.5.6 y se ajustó la ventana Info para mencionar el branding propietario, sin referencias públicas.
+- **Documentación y branding cerrado**: `README.md` se reescribió para reflejar la solución propietaria y los requisitos de evaluación privada; la ventana de información muestra ahora autor, licencia privada y menciones a FerDev.
 ### Mejorado
-- **Seguridad y secretos**: `.gitignore` bloquea claves, tokens y archivos `.env`, garantizando que no se filtren credenciales en commits.
+- **Seguridad y secretos**: `.gitignore` bloquea claves, tokens y `.env` y `version.py` sube a v1.5.6; `SyncMaster-v1.5.6-Private.AppImage` se empaqueta con metadatos actualizados.
 
 ## [1.5.5] - 2026-03-17
 ### Añadido

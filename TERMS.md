@@ -1,10 +1,11 @@
-# Términos de Uso Académicos - Sync Master v1.5.6
+# Términos de Evaluación Privada - Solución Propietaria FerDev v1.5.6
 
-Este software se entrega exclusivamente bajo la **Licencia de Evaluación Académica** para instructores del SENA. La distribución, modificación o despliegue fuera del entorno académico autorizado requiere el permiso expreso del autor.
+Este software se distribuye exclusivamente bajo una **Licencia de Evaluación Privada / Propietaria**. La copia, ejecución, modificación o despliegue fuera de los entornos autorizados requiere el consentimiento expreso y escrito del autor.
 
 ## Ámbito de uso permitido
-- El software puede utilizarse únicamente en actividades de docencia, investigación o evaluación avaladas por el SENA.
-- No se permiten reversiones, redistribuciones abiertas ni su uso en entornos comerciales sin contratación adicional.
+- Uso privado y controlado para evaluación interna o demostraciones cerradas supervisadas por FerDev.
+- No se permite redistribución, reempaque o publicación sin un acuerdo comercial adicional.
+- Cualquier integración con servicios externos debe proteger las credenciales y evitar exposición pública.
 
-## Representación de autoría
-Miguel Fernando Cárdenas Alvear (FerDev) mantiene todos los derechos de autor y la lógica propietaria de control, interfaz y wrappers que integran Python con Rclone.
+## Derechos de autor
+Miguel Fernando Cárdenas Alvear (FerDev) mantiene todos los derechos de autor, la interfaz de control y el wrapper propietario que integra los binarios de Rclone con la lógica en Python.
