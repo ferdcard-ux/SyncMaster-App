@@ -1,59 +1,24 @@
-# SyncMaster App
+# Sync Master Privado v1.5.6
 
-![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-blue.svg)
-![Version](https://img.shields.io/badge/Version-v1.5.4-blue)
-![Plataforma](https://img.shields.io/badge/Plataforma-Linux-informational)
+Sync Master es una solución propietaria para despliegues privados y académicos creada por Miguel Fernando Cárdenas Alvear (FerDev). Esta edición se distribuye bajo la Licencia de Evaluación Académica diseñada para instructores del SENA y no admite contribuciones públicas ni redistribución no autorizada.
 
-SyncMaster es una aplicacion de sincronizacion de archivos enfocada en simplicidad y confiabilidad, distribuida como AppImage para Linux.
+## Requisitos de Instalación
+- Linux de 64 bits (Zorin OS, Ubuntu o distribuciones similares) con Python 3.10 y PyQt6 instalados.
+- Rclone configurado con los remotos autorizados, y el cliente de OneDrive cuando se requiere sincronización on-prem.
+- Acceso a los directorios locales y a `~/.config/sync_master` para guardar los ajustes.
+- Conexiones seguras (SSH/Rclone tokens) para los servicios en la nube del proyecto.
 
-## Caracteristicas principales
-- Sincronizacion bidireccional entre equipos y la nube.
-- Iconos dinamicos que reflejan el estado de la sincronizacion en tiempo real.
-- Bandeja del sistema para iniciar, pausar y ver el estado rapidamente.
-- Configuracion simple de carpetas locales y remotas.
-- Portabilidad total con AppImage (sin instaladores complejos).
+## Guía de Configuración Local
+1. **Servicios principales**: usa el diálogo de configuración para habilitar cada servicio, definir directorios, intervalos y elegir modo (bisync/copy/sync). Las exclusiones se escriben línea a línea y se traducen automáticamente en parámetros `--exclude`.
+2. **Monitor de estado**: cada tarjeta muestra estado, modo, intervalo y última sincronización; el botón local ofrece Pausar/Reanudar y el botón global inicia sincronizaciones en los servicios activos.
+3. **Protecciones adicionales**: el sistema bloquea ejecuciones mientras la API está limitada, limpia cachés seleccionados con opción para programar `--resync` y mantiene una consola filtrada de eventos relevantes.
+4. **Documentación interna**: consulta `USERGUIDE.md` para revisar la arquitectura del sistema, el wrapper propietario sobre Rclone y cómo se gestiona el control de flujo desde Python.
 
-## Novedades de v1.5.4
-- **Interfaz Dark mejorada**: toda la UI ahora usa un fondo Gris Carbón (#1E1E1E) y tarjetas Gris Pizarra (#2D2D2D) con tipografía más grande (+1 pt en controles, +2 pt en el log) y botones de borde sutil que conservan contraste en reposo, enfoque y hover.
-- **Monitor de estado enriquecido**: cada servicio reporta “Estado: Sincronizando” (ámbar) cuando lanza tareas y “Estado: En espera” (amarillo) mientras aguarda recursos; los botones de pausa usan amarillo mientras el servicio está detenido para no perder visibilidad.
-- **Sincronización manual visible**: el botón “Sincronizar servicios” refleja el foco del tema Dark, marca el estado “Sincronizando” en los servicios listos y deja claro en la sección de estado qué servicios están ejecutándose.
-- **Log inteligente y standby**: el panel de actividad limpia automáticamente metadatos (Modtime, HashType, Building Path, etc.), muestra solo transferencias/Deleted/NOTICE/errores y mantiene un mensaje `[Servicio] En ejecución....` hasta que aparece nueva actividad relevante.
-- **Gestión inteligente de caché RClone**: la limpieza abre un diálogo con casillas por servicio (Local, GDrive, OneDrive y Mega-Dev), pregunta si re-sincronizar ahora y, si se opta por “No”, programa internamente `--resync` para la próxima ejecución.
-- **Robustez frente a lockfiles**: los comandos RClone incluyen `--min-age 30s` y `--local-no-check-updated`, ignoran el error `cannot remove lockfile ... no such file or directory` y consideran la tarea exitosa si ese es el único fallo, manteniendo el estado en “Activo”.
-- **Trifecta de sincronización Copy/Sync/Bisync**: cada servicio rclone (Local, Google Drive y los servicios definidos por el usuario) puede elegir ahora entre los tres modos en el diálogo de configuración; el panel principal muestra el modo activo con un sello e iconos (↔ para bisync, ↑ para copy y ⇄ para sync), y la lógica de comandos respeta esas decisiones al construir los flags de `rclone`.
-- **Guardia de APIs en la nube**: los servicios RClone en la nube arrancan con `--transfers 2`, `--checkers 4`, `--tpslimit 5` y, cuando aplica (Google Drive), `--drive-chunk-size 64M`; si detectamos `Quota exceeded` mostramos `[Servicio] API Saturada. Entrando en modo de espera preventivo...`, activamos `Estado: Limitado (API)` en naranja y pausamos los ciclos 5 minutos antes de reanudar.
+## Manual de Usuario
+- Ejecuta `SyncMaster-v1.5.6-Private.AppImage` para abrir la interfaz segura.
+- La bandeja del sistema permite iniciar el programa, forzar sincronizaciones o limpiar el log.
+- El log recoge sólo transferencias, avisos y errores reales; cuando no hay actividad se mantiene el placeholder `[Servicio] En ejecución....`.
+- El botón “Sincronizar servicios” activa los servicios que no estén pausados y no estén deshabilitados; cualquier servicio detenido se marca en amarillo o naranja según el motivo.
 
-## Como instalar en Linux
-1. Descarga la AppImage desde la seccion de Releases.
-2. Dale permisos de ejecucion:
-
-```bash
-chmod +x SyncMaster-*.AppImage
-```
-
-3. Ejecuta la aplicacion:
-
-```bash
-./SyncMaster-*.AppImage
-```
-
-## Requisitos
-Para ejecutar AppImages en distribuciones modernas (como Zorin o Ubuntu), solo necesitas FUSE instalado.
-
-Si tu distribucion requiere soporte FUSE para AppImage, instala el paquete correspondiente antes de ejecutar.
-
-## Releases
-Descargas y notas de version en:
-Releases: https://github.com/ferdcard-ux/SyncMaster-App/releases
-
-## Creditos
-SyncMaster esta desarrollado con un enfoque multiplataforma y un empaquetado pensado para entornos Linux.
-
-## Términos de Uso y Descargo de Responsabilidad (GNU GPL v3)
-
-Al utilizar o modificar **Sync Master**, aceptas los siguientes términos:
-
-1. **Garantía y Responsabilidad**: Según lo estipulado en las secciones 15, 16 y 17 de la Licencia GPL v3, este software se proporciona "tal cual", sin garantía de ningún tipo. El desarrollador no es responsable de cualquier daño o pérdida de datos derivados de su uso.
-2. **Filosofía Open Source**: Cualquier versión derivada o modificación que decidas distribuir debe ser publicada bajo esta misma licencia (GPL v3), garantizando que el software siga siendo libre para todos.
-3. **Privacidad de Datos**: Sync Master opera localmente. Tus credenciales de GDrive, OneDrive, Mega y cualquier otro servicio que decidas configurar, son gestionadas por Rclone o El cliente de OneDrive para Linux y almacenadas exclusivamente en tu sistema local.
-4. **Cumplimiento con Terceros**: Eres responsable de asegurar que tu uso de esta herramienta cumple con los términos de servicio de los proveedores de almacenamiento en la nube.
+## Documentación Académica
+Este repositorio mantiene los detalles de autorización y diseño interno en `TERMS.md` y `USERGUIDE.md`, que explican la licencia de evaluación, el wrapper propietario sobre Rclone y los protocolos de control implementados en Python.

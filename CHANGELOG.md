@@ -1,5 +1,13 @@
 # Registro de Cambios - Sync Master
 
+## [1.5.6] - 2026-03-18
+### Añadido
+- **Licencia privada y documentación académica**: se eliminó el texto GPL, se introdujo el archivo `COPYRIGHT.txt`, `TERMS.md` describe la Licencia de Evaluación Académica para instructores SENA y `USERGUIDE.md` ahora contiene la arquitectura del wrapper propietario sobre Rclone.
+### Reemplazado
+- **Marca y brand privado**: `README.md` se enfocó en requisitos de instalación y manuales internos, se actualizó `version.py` a v1.5.6 y se ajustó la ventana Info para mencionar el branding propietario, sin referencias públicas.
+### Mejorado
+- **Seguridad y secretos**: `.gitignore` bloquea claves, tokens y archivos `.env`, garantizando que no se filtren credenciales en commits.
+
 ## [1.5.5] - 2026-03-17
 ### Añadido
 - **Trifecta de sincronización Copy/Sync/Bisync**: Cada servicio basado en rclone (Local, Google Drive y los servicios personalizados) dispone de un selector que describe impactos y un sello en la tarjeta para mostrar si está en modo bisync, copy o sync (flecha vertical para unidireccional, ↔ para bidireccional). Un ligero ajuste en el padding mantiene el nuevo texto antes del botón de control.

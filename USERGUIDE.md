@@ -33,13 +33,18 @@ Sync Master es un panel de monitoreo y orquestación para sincronización de car
 - **API limitada**: si se detecta `Quota exceeded`, el servicio pasa a `Limitado (API)` (texto naranja), se muestra `[Servicio] API Saturada...`, se detiene el cron por 5 minutos y se vuelve a `Activo` al terminar el backoff.
 - **Auto-recuperación**: cuando se requiere `--resync` por errores críticos, se añade automáticamente y se reejecuta la tarea; los modos `copy`/`sync` sólo reinician sin forzar `--resync` a menos que el usuario lo programe.
 
-## Documentación y licencia
-Todo el proyecto está licenciado bajo GNU GPL v3. El archivo `LICENSE` explica los términos completos, y `README.md` describe la filosofía, los cambios de versión y los términos de uso.
+## Arquitectura del Sistema
+Sync Master funciona como un wrapper propietario en Python sobre los binarios de Rclone y los clientes de nube. La UI (PyQt6) controla cada proceso mediante `QProcess`, capta stdout/stderr, limpia el ruido y decide si reintentar, pausar o activar protecciones (`--min-age 30s`, `--transfers 2`, `--tpslimit 5`). El wrapper mantiene la coherencia entre el cron interno y las tarjetas de servicio, reprogramando `--resync` cuando detecta abortos críticos y pausando 5 minutos cuando la API devuelve `Quota exceeded`.
+
+El código también asegura que cada servicio tenga su propio estado (`Activo`, `Sincronizando`, `En Espera`, `Limitado (API)`) y que los cambios de modo (bisync/copy/sync) se propaguen desde `settings_dialog.py` hasta los comandos de Rclone. La ventana de monitoreo cubre todos los mensajes que pasan por el wrapper y solo expone los eventos relevantes.
+
+## Documentación y licencia de evaluación
+La entrega privada incluye `COPYRIGHT.txt`, `TERMS.md` y este `USERGUIDE.md`. El software se reparte bajo una Licencia de Evaluación Académica para instructores del SENA, que mantiene todos los derechos reservados y prohíbe redistribuciones sin autorización. La documentación explica cómo se integra Python con Rclone, las decisiones de diseño y el modelo de control original que respalda la interfaz propietaria.
 
 ## Recomendaciones de despliegue
-1. Ejecuta `python3 main.py` desde el directorio del bunker para pruebas locales o utiliza el AppImage empaquetado en `SyncMaster-Landing`.
-2. Para publicar en GitHub, actualiza primero `README.md`, `CHANGELOG.md` y `USERGUIDE.md`, luego `git add`, `git commit` y `git push` en ambos repositorios (bunker y landing).
-3. Mantén la configuración de exclusiones y modos en `~/.config/sync_master/config.json`; la aplicación la sobrescribe en cada guardado.
+1. Valida el binario `SyncMaster-v1.5.6-Private.AppImage` dentro del entorno autorizado antes de entregarlo a los instructores SENA.
+2. Revisa que las credenciales (tokens, SSH, `.env`) se mantengan fuera de los controles de código (ver `.gitignore`).
+3. Mantén la configuración de exclusiones y modos en `~/.config/sync_master/config.json`; la aplicación la sobrescribe cada vez que guardas.
 
 ## Soporte y seguimiento
-Si un servicio deja de responder, revisa la ventana de estado y la consola filtrada (busca palabras clave como `Limitado`, `Sincronizando` y `Error`). También puedes usar el sistema de notificaciones del icono en bandeja para recibir alertas críticas o advertencias.
+Si hay incidencias, documenta el mensaje exacto del log y compártelo con el instructor principal o el responsable académico. La bandeja del sistema ofrece notificaciones críticas o advertencias para detectar errores de control, y la consola rastrea sólo las líneas que justifican una intervención.
