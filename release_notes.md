@@ -1,6 +1,6 @@
 ## [1.5.6] - 2026-03-18
 ### Añadido
-- **Identidad Propietaria FerDev**: la documentación y los avisos legales (`README.md`, `USERGUIDE.md`, `TERMS.md`, `COPYRIGHT.txt`) definen la solución como una plataforma cerrada de evaluación privada y mantienen los derechos reservados del autor.
+- **Identidad Propietaria FerDev**: la documentación y los avisos legales ( `README.md`, `USERGUIDE.md`, `TERMS.md`, `COPYRIGHT.txt`, `FAQ.md`) definen la solución como una plataforma cerrada de evaluación privada y mantienen los derechos reservados del autor.
 ### Reemplazado
 - **Marca neutra y GUI**: se reescribió el contenido de marca para eliminar menciones institucionales, se actualizó la ventana "Acerca de" y se registró la salida como `SyncMaster-v1.5.6-Private.AppImage` con metadatos propios.
 

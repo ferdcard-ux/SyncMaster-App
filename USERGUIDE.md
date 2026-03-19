@@ -1,9 +1,15 @@
-# Sync Master User Guide
+# Manual de Usuario: Sync Master v1.5.6
+**Desarrollado por Miguel Fernando Cárdenas Alvear (FerDev)** *Solución Propietaria de Sincronización de Alta Resiliencia.
 
-## Introducción
-Sync Master es un panel de monitoreo y orquestación para sincronización de carpetas locales y servicios en la nube (Rclone, Google Drive, OneDrive, Mega). La interfaz Dark prioriza contraste, confirma estado y controla eventos críticos como errores, `lockfile` y límites de API.
+---
 
-## Características principales
+# 1. Introducción
+
+**Sync Master** es un gestor de sincronización inteligente que actúa como una capa de control profesional (wrapper) sobre motores de transferencia de datos como Rclone y clientes de nube. Permite automatizar el respaldo y la paridad de archivos entre directorios locales y servicios de nube (Google Drive, OneDrive, Mega, etc.) mediante una interfaz gráfica optimizada para el rendimiento y la transparencia de procesos.
+
+---
+
+# 2. Características principales
 - Tema Dark con tipografía +1 pt en controles y +2 pt en la consola de logs, tarjetas gris pizarra (#2D2D2D) y fondo gris carbón (#1E1E1E). Botones con bordes finos, enfoque visible y estados dinámicos por servicio.
 - Trifecta de modos por servicio (bisync/copy/sync). Cada servicio muestra un sello con iconos ↔, ↑ o ⇄ en su tarjeta y un descriptor del modo actual.
 - Logs inteligentes que filtran metadatos ruidosos (Modtime, HashType, Building Path, etc.) y muestran sólo eventos relevantes (transferencias, notices, errores). Cuando no hay actividad visible aparece `[Servicio] En ejecución....`.
@@ -11,40 +17,86 @@ Sync Master es un panel de monitoreo y orquestación para sincronización de car
 - Protección a errores frecuentes: ignorar `cannot remove lockfile ... no such file or directory`, reintentos automáticos, y detección de `Quota exceeded` para pausar servicios 5 minutos y cambiar el estado a `Limitado (API)`.
 - Guardias Rclone para la nube: `--transfers 2`, `--checkers 4`, `--tpslimit 5`, y `--drive-chunk-size 64M` cuando se sincroniza con Google Drive.
 
-## Modos de uso
-1. **Sincronización periódica**: cada servicio configura su intervalo (minutos). Los servicios locales (incluyendo Rclone) lanzan automáticamente el proceso según ese cron. El botón `Sincronizar servicios` fuerza manualmente ese lanzamiento para todos los servicios activos que no estén pausados ni deshabilitados.
-2. **Pausar/Reanudar**: cada tarjeta tiene el botón `Pausar`/`Reanudar`. En pausa se vuelve amarillo y el texto cambia. Mientras está pausado no se ejecutan cron ni sincronizaciones manuales.
-3. **Modo Standby del log**: la consola muestra un placeholder con `[Servicio] En ejecución....` hasta que llega un mensaje considerado relevante. Los mensajes ignoran los ruidos en JSON y `Building path`.
-4. **Gestión de caché Rclone**: el diálogo permite elegir servicios específicos (Local, GDrive, OneDrive y Mega-Dev). Tras limpiar la caché se pregunta si resincronizar; si se responde “No”, se coloca `--resync` automáticamente para la próxima ejecución.
+---
 
-## Configuración por servicio
-- **Modalidades**: via `Settings > Google Drive` o `Servicios Rclone` se selecciona `bisync`, `copy` o `sync`, cada uno con tooltip explicativo. El manager construye el comando `rclone bisync|copy|sync ...` añadiendo los flags globales `--min-age 30s`, `--local-no-check-updated` y las exclusiones definidas en el campo de texto.
-- **Exclusiones**: cada línea del campo de exclusiones se agrega al comando con `--exclude`. Por ejemplo:
-  ```text
-  *.tmp
-  node_modules/**
-  Path /.cache/
-  ```
-  se traduce en `--exclude *.tmp --exclude node_modules/** --exclude Path /.cache/`.
-- **Intervalos y directorios**: define el directorio local y remoto, el intervalo en minutos, y si aplica, el propósito del servicio en la nube. También puedes agregar servicios Rclone personalizados usando la pestaña correspondiente.
+# 3. Modos de uso
+## A. Sincronización periódica: 
+Cada servicio configura su intervalo (minutos). Los servicios locales (incluyendo Rclone) lanzan automáticamente el proceso según ese cron. El botón `Sincronizar servicios` fuerza manualmente ese lanzamiento para todos los servicios activos que no estén pausados ni deshabilitados.
+## B. Pausar/Reanudar: 
+Cada tarjeta tiene el botón `Pausar`/`Reanudar`. En pausa se vuelve amarillo y el texto cambia. Mientras está pausado no se ejecutan cron ni sincronizaciones manuales.
+## C. Modo Standby del log:
+La consola muestra un placeholder con `[Servicio] En ejecución....` hasta que llega un mensaje considerado relevante. Los mensajes ignoran los ruidos en JSON y `Building path`.
+## D. Gestión de caché Rclone:
+El diálogo permite elegir servicios específicos (Local, GDrive, OneDrive y Mega-Dev). Tras limpiar la caché se pregunta si resincronizar; si se responde “No”, se coloca `--resync` automáticamente para la próxima ejecución.
 
-## Manejo de errores y estados
-- **Lockfiles**: si la salida menciona `lockfile`, el exit code 1 se considera exitoso; el panel vuelve a `Activo` tras la sincronización y se registra `Error de lockfile ignorado...`.
-- **API limitada**: si se detecta `Quota exceeded`, el servicio pasa a `Limitado (API)` (texto naranja), se muestra `[Servicio] API Saturada...`, se detiene el cron por 5 minutos y se vuelve a `Activo` al terminar el backoff.
-- **Auto-recuperación**: cuando se requiere `--resync` por errores críticos, se añade automáticamente y se reejecuta la tarea; los modos `copy`/`sync` sólo reinician sin forzar `--resync` a menos que el usuario lo programe.
+---
 
-## Arquitectura del Sistema
-Sync Master funciona como un wrapper propietario en Python sobre los binarios de Rclone y los clientes de nube. La UI (PyQt6) controla cada proceso mediante `QProcess`, capta stdout/stderr, limpia el ruido y decide si reintentar, pausar o activar protecciones (`--min-age 30s`, `--transfers 2`, `--tpslimit 5`). El wrapper mantiene la coherencia entre el cron interno y las tarjetas de servicio, reprogramando `--resync` cuando detecta abortos críticos y pausando 5 minutos cuando la API devuelve `Quota exceeded`.
+# 4. Interfaz Principal: Monitor en Tiempo Real
+La pantalla principal ofrece una visión panorámica de la salud de tus datos.
 
-El código también asegura que cada servicio tenga su propio estado (`Activo`, `Sincronizando`, `En Espera`, `Limitado (API)`) y que los cambios de modo (bisync/copy/sync) se propaguen desde `settings_dialog.py` hasta los comandos de Rclone. La ventana de monitoreo cubre todos los mensajes que pasan por el wrapper y solo expone los eventos relevantes.
+## A. Tarjetas de Servicio
+Cada servicio configurado se presenta en una tarjeta que contiene:
 
-## Documentación y licencia de evaluación privada
-La entrega privada incluye `COPYRIGHT.txt`, `TERMS.md` y este `USERGUIDE.md`. El software se distribuye bajo una Licencia de Evaluación Privada / Propietaria de FerDev, que mantiene todos los derechos reservados y prohíbe redistribuciones no autorizadas. Aquí se explica cómo Python actúa como wrapper propietario sobre Rclone y cómo se mantiene el control de estados en la UI cerrada.
+* **Estado:** Indica visualmente si el servicio está "Activo" (Verde), "Sincronizando" (Ámbar), "En Espera" (Amarillo) o "Limitado (API)" (Naranja).
+* **Modo:** Muestra la lógica de transferencia seleccionada (Bisync ↔, Sync ↓, o Copy ↑).
+* **Intervalo:** Tiempo programado entre ciclos automáticos.
+* **Última Sinc:** Marca de tiempo exacta de la última actividad exitosa.
+* **Botón Pausar/Reanudar:** Permite detener o activar un servicio específico de forma individual.
 
-## Recomendaciones de despliegue
-1. Valida el binario `SyncMaster-v1.5.6-Private.AppImage` en el entorno autorizado antes de conceder acceso a nuevos evaluadores.
-2. Asegura que los secretos (tokens, SSH, `.env`) permanezcan fuera de los repositorios (revisa `.gitignore`).
-3. Mantén los perfiles de exclusiones y modos en `~/.config/sync_master/config.json`; la aplicación sobrescribe los valores cada vez que guardas.
+## B. Registro de Actividad y Errores
+Consola técnica que filtra el ruido innecesario para mostrar solo:
+* **Transferencias:** Archivos subidos/descargados con velocidad y tiempo estimado (ETA).
+* **Avisos (NOTICE):** Información relevante sobre el estado de las sumas de comprobación o configuraciones del motor.
+* **Errores Críticos:** Resaltados para una identificación inmediata.
 
-## Soporte y seguimiento
-Si hay incidencias, documenta el mensaje exacto del log y compártelo con el responsable académico o el autor. La bandeja del sistema dispara notificaciones críticas o advertencias para detectar fallos de control, y la consola sólo muestra líneas relevantes que justifican una intervención.
+## C. Barra de Controles Inferior
+* **Limpiar Consola:** Vacía el registro de actividad para mejorar la legibilidad.
+* **Limpiar Caché RClone:** Despliega un menú para borrar archivos de bloqueo (.lck) y metadatos corruptos, permitiendo re-sincronizar servicios trabados.
+* **Sincronizar servicios:** Fuerza una ejecución inmediata de todos los servicios activos fuera de su horario programado.
+* **Info:** Ventana con la versión, autoría de FerDev y detalles de la licencia de evaluación.
+* **Configuración:** Acceso al panel de gestión técnica.
+* **Salir:** Cierra la aplicación de forma segura.
+
+---
+
+# 5. Configuración y Personalización
+El panel de configuración está dividido en pestañas para una gestión granular.
+
+## A. Gestión de Servicios (Pestañas Individuales)
+* **Habilitar [Nombre del Servicio]:** Casilla de verificación para activar o desactivar el ciclo de sincronización de ese servicio sin borrar sus datos.
+* **Directorio Local/Remoto:** Define las rutas de origen y destino.
+* **Intervalo:** Ajuste de la frecuencia de sincronización (en minutos).
+* **Exclusiones:** Cuadro de texto para definir patrones de archivos que no deben sincronizarse (ej: target/**, __pycache__/**, *.tmp). Soporta comentarios con # para organizar tus reglas.
+* **Modo de Sincronización:** Menú desplegable para elegir entre bisync, sync o copy.
+
+## B. Servicios Rclone (Administración)
+Desde esta pestaña puedes:
+* **Añadir Servicio:** Inicia un asistente interactivo para configurar nuevos proveedores de nube.
+* **liminar Seleccionado:** Quita servicios de la lista de gestión.
+* **Tabla de Resumen:** Muestra el nombre, proveedor y ruta local de todos los servicios Rclone registrados.
+
+## C. Pestaña General
+* **Inicio Automático:** Opción para que la aplicación arranque con el sistema operativo y se mantenga en la bandeja de notificaciones.
+
+---
+
+# 6. Funciones de Guardia y Seguridad
+* **API Guardian:** Si se detecta un error de "Quota Exceeded" en nubes como Google Drive, la app entra en modo "Limitado (API)" y pausa la actividad por 5 minutos para evitar bloqueos de cuenta.
+* **Connectivity Guard:** Verifica la conexión a los servidores de Microsoft o Google antes de iniciar, evitando intentos fallidos sin internet.
+* **Auto-Sanación:** Detección automática de duplicados (dedupe) y limpieza de archivos de bloqueo huérfanos.
+
+---
+
+# 7. Requisitos del Sistema
+Para garantizar el funcionamiento óptimo de Sync Master v1.5.6, el entorno debe cumplir con:
+
+* **Sistema Operativo:** Linux (Optimizado para Zorin OS y distribuciones basadas en Ubuntu/Debian).
+* **Arquitectura:** x86_64 para el paquete AppImage.
+* **Dependencias:** Motor Rclone configurado y, para servicios específicos, el cliente de OneDrive.
+* **Interfaz:** Entorno gráfico con soporte para temas oscuros (GTK/GNOME).
+* **Conectividad:** Acceso a internet para la validación de tokens de API y transferencia de datos.
+
+---
+
+# 8. Documentación y licencia de evaluación privada
+La entrega privada incluye `COPYRIGHT.txt`, `TERMS.md`, `FAQ.md` y este `USERGUIDE.md`. El software se distribuye bajo una Licencia de Evaluación Privada / Propietaria de FerDev, que mantiene todos los derechos reservados y prohíbe redistribuciones no autorizadas. Aquí se explica cómo Python actúa como wrapper propietario sobre Rclone y cómo se mantiene el control de estados en la UI cerrada.

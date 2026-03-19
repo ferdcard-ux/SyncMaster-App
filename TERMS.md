@@ -1,4 +1,4 @@
-# Términos de Evaluación Privada - Solución Propietaria FerDev v1.5.6
+# Términos de Evaluación Privada - SyncMaster-v1.5.6-Private
 
 Este software se distribuye exclusivamente bajo una **Licencia de Evaluación Privada / Propietaria**. La copia, ejecución, modificación o despliegue fuera de los entornos autorizados requiere el consentimiento expreso y escrito del autor.
 

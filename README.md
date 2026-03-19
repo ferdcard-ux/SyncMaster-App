@@ -1,6 +1,6 @@
-# Solución Propietaria FerDev v1.5.6 Privada
+# SyncMaster-v1.5.6-Private
 
-Solución Propietaria FerDev es un sistema de sincronización seguro y cerrado diseñado para escenarios privados. Esta edición no admite contribuciones públicas ni redistribución sin autorización; se entrega exclusivamente como Evaluación Privada / Propietaria de FerDev.
+SyncMaster-v1.5.6-Private es un sistema de sincronización seguro y cerrado diseñado para escenarios privados. Esta edición no admite contribuciones públicas ni redistribución sin autorización; se entrega exclusivamente como Evaluación Privada / Propietaria de FerDev.
 
 ## Requisitos de instalación
 - Linux de 64 bits (Zorin OS, Ubuntu o similares) con Python 3.10 y PyQt6 disponibles.

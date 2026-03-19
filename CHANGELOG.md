@@ -2,7 +2,7 @@
 
 ## [1.5.6] - 2026-03-18
 ### Añadido
-- **Identidad Solución Propietaria FerDev**: `COPYRIGHT.txt`, `TERMS.md` y `USERGUIDE.md` presentan la arquitectura del wrapper propietario sobre Rclone y la licencia de evaluación privada con derechos reservados.
+- **Identidad Solución Propietaria FerDev**: `COPYRIGHT.txt`, `TERMS.md`, `FAQ.md` y `USERGUIDE.md` presentan la arquitectura del wrapper propietario sobre Rclone y la licencia de evaluación privada con derechos reservados.
 ### Reemplazado
 - **Documentación y branding cerrado**: `README.md` se reescribió para reflejar la solución propietaria y los requisitos de evaluación privada; la ventana de información muestra ahora autor, licencia privada y menciones a FerDev.
 ### Mejorado
