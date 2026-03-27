@@ -1,4 +1,4 @@
-# ❓ Preguntas Frecuentes (FAQ) - Sync Master v1.5.6
+# ❓ Preguntas Frecuentes (FAQ) - Sync Master v1.6.0
 **Soporte Técnico y Operativo de la Solución FerDev**
 
 ## 1. ¿Qué significan los iconos en el "Modo" de cada tarjeta?
@@ -15,8 +15,11 @@ Es una distinción de la tecnología utilizada para conectar:
 * **(Rclone):** Utiliza el motor de Rclone para gestionar la transferencia (ej. Google Drive o Mega).
 * **(on-prem):** Utiliza un cliente de sincronización local o nativo instalado en tu sistema (como el agente de OneDrive).
 
-## 4. ¿Puedo sincronizar carpetas de programación sin subir archivos pesados como "node_modules"?
-Sí, mediante la sección de [Exclusiones] en la configuración de cada servicio. Puedes escribir patrones como `node_modules/**` o `target/**` para que la app ignore esas carpetas y solo sincronice tu código fuente, ahorrando espacio y ancho de banda.
+## 4. ¿Por qué el monitor muestra cambios cada segundo y cómo puedo verificarlo?
+Sync Master mantiene la GUI en tiempo real gracias al nuevo `ProcessWorker` en `QThread`. Cada servicio Rclone lanza ese hilo con `PYTHONUNBUFFERED=1` y las banderas `--progress`, `--stats 1s`, `--stats-one-line` y `--use-json-log`, por lo que cada segundo el parser detecta porcentajes (`([0-9]+)\s*%`) y actualiza la señal `update_ui`. Si quieres confirmar que está funcionando, observa la terminal donde ejecutaste `main.py`: verás mensajes como `DEBUG: Detectado 42% para Mega-Dev` cada vez que aparece un nuevo porcentaje.
+
+## 5. ¿Puedo sincronizar carpetas de programación sin subir archivos pesados como "node_modules"?
+Sí, mediante las **Exclusiones Globales** (que la app genera automáticamente en `~/.config/syncmaster/rclone_filters.txt`) se ignoran reglas estándar como basura y cachés. Además, puedes añadir tus propios patrones en la configuración de cada servicio para ignorar `node_modules/**` o `target/**` de forma sumarizada.
 
 ## 5. ¿Qué hago si un servicio se queda en "Error" de forma persistente?
 La causa más común es un archivo de bloqueo (lockfile) que no se pudo borrar tras un corte de luz o de internet.
@@ -35,7 +38,7 @@ El sistema Connectivity Guard detectará la pérdida de conexión y detendrá lo
 
 ## 9. ¿Cómo instalo y ejecuto el AppImage en Zorin OS?
 Al ser un formato portátil, no requiere una instalación tradicional, pero sí un par de pasos de preparación:
-* **Dar Permisos:** Haz clic derecho sobre el archivo SyncMaster-v1.5.6-Private.AppImage, ve a Propiedades > Permisos y marca la casilla "Permitir ejecutar el archivo como un programa".
+* **Dar Permisos:** Haz clic derecho sobre el archivo SyncMaster-v1.6.0-Private.AppImage, ve a Propiedades > Permisos y marca la casilla "Permitir ejecutar el archivo como un programa".
 * **Integración al Menú:** Al ejecutarlo por primera vez, si tienes instalado [AppImageLauncher], el sistema te preguntará si deseas `"Integrar y ejecutar".` Esto creará automáticamente el lanzador en tu menú de aplicaciones de Zorin.
 * **Ejecución Directa:** Si prefieres no integrarlo, simplemente haz doble clic para abrir la interfaz y comenzar a sincronizar.
 

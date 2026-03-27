@@ -1,4 +1,4 @@
-# SyncMaster-v1.5.6-Private
+# SyncMaster-v1.6.0-Private
 
 SyncMaster-v1.5.6-Private es un sistema de sincronización seguro y cerrado diseñado para escenarios privados. Esta edición no admite contribuciones públicas ni redistribución sin autorización; se entrega exclusivamente como Evaluación Privada / Propietaria de FerDev.
 
@@ -15,10 +15,15 @@ SyncMaster-v1.5.6-Private es un sistema de sincronización seguro y cerrado dise
 4. **Protecciones**: el software ignora lockfiles, reprende `Quota exceeded` con un modo `Limitado (API)` en naranja y pausa los ciclos cinco minutos antes de reanudar.
 
 ## Manual del usuario
-- Ejecuta `SyncMaster-v1.5.6-Private.AppImage` para abrir la interfaz protegida.
+- Ejecuta `SyncMaster-v1.6.0-Private.AppImage` para abrir la interfaz protegida.
 - La bandeja del sistema permite iniciar la app, limpiar la consola o ejecutar sincronizaciones manuales.
-- El log filtra ruidos y conserva sólo transferencias, avisos NOTICE, errores y saturaciones de API; cuando no hay actividad se mantiene el mensaje `[Servicio] En ejecución....`.
+- El monitor de actividad (Mini-Log) permite ver las últimas 10 líneas con auto-ajuste y fuente de 12pt.
 - Las tarjetas tienen un botón Pausar/Reanudar y reflejan el modo activo (bisync/copy/sync) con iconos especiales.
 
 ## Licencia y derechos
 Esta obra es propiedad exclusiva de Miguel Fernando Cárdenas Alvear (FerDev). Se entrega bajo la denominación “Evaluación Privada / Propietaria” y no concede permisos para reproducir, distribuir o modificar el software sin autorización escrita.
+
+## Cambios recientes (v1.6.0)
+- **Dashboard Inteligente**: Widgets circulares con puntas redondeadas, carril de fondo y gramática reactiva ("Sincronizando" -> "Sincronizado" con colores atados).
+- **Filtros Globales y Portabilidad**: Generación automática de `rclone_filters.txt` y silenciado de symlinks mediante `--skip-links` para un monitoreo limpio.
+- **Visualización Premium**: Contadores color-coded sincronizados con el lenguaje visual de los estados y mini-log ensanchado +60% para máxima legibilidad.

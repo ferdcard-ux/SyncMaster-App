@@ -1,5 +1,5 @@
-# Manual de Usuario: Sync Master v1.5.6
-**Desarrollado por Miguel Fernando Cárdenas Alvear (FerDev)** *Solución Propietaria de Sincronización de Alta Resiliencia.
+# Manual de Usuario: Sync Master v1.6.0
+**Desarrollado por Miguel Fernando Cárdenas Alvear (FerDev)** Solución Propietaria de Sincronización de Alta Resiliencia.
 
 ---
 
@@ -10,12 +10,11 @@
 ---
 
 # 2. Características principales
-- Tema Dark con tipografía +1 pt en controles y +2 pt en la consola de logs, tarjetas gris pizarra (#2D2D2D) y fondo gris carbón (#1E1E1E). Botones con bordes finos, enfoque visible y estados dinámicos por servicio.
-- Trifecta de modos por servicio (bisync/copy/sync). Cada servicio muestra un sello con iconos ↔, ↑ o ⇄ en su tarjeta y un descriptor del modo actual.
-- Logs inteligentes que filtran metadatos ruidosos (Modtime, HashType, Building Path, etc.) y muestran sólo eventos relevantes (transferencias, notices, errores). Cuando no hay actividad visible aparece `[Servicio] En ejecución....`.
-- Limpieza selectiva de caché Rclone con diálogo de casillas y opción de re-sincronizar o programar `--resync`.
-- Protección a errores frecuentes: ignorar `cannot remove lockfile ... no such file or directory`, reintentos automáticos, y detección de `Quota exceeded` para pausar servicios 5 minutos y cambiar el estado a `Limitado (API)`.
-- Guardias Rclone para la nube: `--transfers 2`, `--checkers 4`, `--tpslimit 5`, y `--drive-chunk-size 64M` cuando se sincroniza con Google Drive.
+- Tema Dark Renovado: Esquema #1E1E1E / #2D2D2D con tipografía generosa. Widgets circulares con **puntas redondeadas (RoundCap)**, carril de fondo gris y orientación a las 12:00.
+- Gramática Reactiva: El centro de los anillos cambia de **"Sincronizando"** (Azul) a **"Sincronizado"** (Verde) al finalizar con éxito.
+- Dashnoard Sincronizado: Los contadores de Archivos, Advertencias y Errores están **color-coded** (Verde, Naranja, Rojo) y alineados milimétricamente.
+- Exclusiones Globales: Autogeneración de filtros en `~/.config/syncmaster/rclone_filters.txt` y silenciado automático de enlaces simbólicos mediante `--skip-links`.
+- Guardias Rclone para la nube: `--transfers 2`, `--checkers 4`, `--tpslimit 5`, y `--drive-chunk-size 64M`.
 
 ---
 
@@ -33,6 +32,9 @@ El diálogo permite elegir servicios específicos (Local, GDrive, OneDrive y Meg
 
 # 4. Interfaz Principal: Monitor en Tiempo Real
 La pantalla principal ofrece una visión panorámica de la salud de tus datos.
+
+### Reactividad en vivo
+Cada servicio lanza un `ProcessWorker` en `QThread` con `--progress`, `--stats 1s`, `--stats-one-line` y `--use-json-log`. Esto garantiza que los arcos de progreso se vean al 100% de color incluso antes del primer porcentaje numérico y que el texto central evolucione gramaticalmente cada segundo.
 
 ## A. Tarjetas de Servicio
 Cada servicio configurado se presenta en una tarjeta que contiene:
@@ -72,7 +74,7 @@ El panel de configuración está dividido en pestañas para una gestión granula
 ## B. Servicios Rclone (Administración)
 Desde esta pestaña puedes:
 * **Añadir Servicio:** Inicia un asistente interactivo para configurar nuevos proveedores de nube.
-* **liminar Seleccionado:** Quita servicios de la lista de gestión.
+* **Eliminar Seleccionado:** Quita servicios de la lista de gestión.
 * **Tabla de Resumen:** Muestra el nombre, proveedor y ruta local de todos los servicios Rclone registrados.
 
 ## C. Pestaña General
@@ -88,7 +90,7 @@ Desde esta pestaña puedes:
 ---
 
 # 7. Requisitos del Sistema
-Para garantizar el funcionamiento óptimo de Sync Master v1.5.6, el entorno debe cumplir con:
+Para garantizar el funcionamiento óptimo de Sync Master v1.6.0, el entorno debe cumplir con:
 
 * **Sistema Operativo:** Linux (Optimizado para Zorin OS y distribuciones basadas en Ubuntu/Debian).
 * **Arquitectura:** x86_64 para el paquete AppImage.

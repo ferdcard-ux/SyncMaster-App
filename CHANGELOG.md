@@ -1,5 +1,29 @@
 # Registro de Cambios - Sync Master
 
+## [1.6.0] - 2026-03-27
+### Añadido
+- **Filtros Globales Automáticos**: Implementación de autogeneración del archivo `~/.config/syncmaster/rclone_filters.txt` con reglas estándar (basura, cachés, temporales y AppDirs) para garantizar la limpieza de sincronización en cualquier equipo.
+- **Silenciado de Symlinks**: Inyección nativa del flag `--skip-links` en todos los comandos rclone/bisync para eliminar ruidos innecesarios en el monitor de actividad.
+- **Nuevas Reglas de Estética**: Los widgets circulares adquieren puntas redondeadas (`RoundCap`), carril de fondo gris y orientación horaria iniciando a las 12:00.
+
+### Mejorado
+- **Dashboard de Alta Fidelidad**: Los contadores de "Archivos Completados", "Advertencias" y "Errores" ahora se sincronizan cromáticamente (Verde, Naranja, Rojo) con el lenguaje visual de los estados.
+- **Perfección Gramatical**: El texto central de los arcos evoluciona de "Sincronizando" (Azul) a "Sincronizado" (Verde) inmediatamente al finalizar con éxito.
+- **Micro-animaciones**: Transiciones suaves (fade) al cambiar el color del arco de progreso mediante `QPropertyAnimation`.
+- **Panel de Monitoreo Optimizado**: Mini-log ensanchado un +60%, con fuente de 12pt, ajuste de línea automático y límite de las últimas 10 líneas para máxima claridad.
+- **Alineación Milimétrica**: Ajuste del layout de tarjetas para centrado perfecto de los widgets de progreso.
+
+### Corregido
+- **Hotfix de Renderizado**: Reparación de un error de tipos en `QPen` que causaba la invisibilidad de los arcos en ciertas versiones de PyQt6.
+- **Visibilidad Forzada**: Los arcos ahora se muestran al 100% de color durante estados de actividad (Escaneando, Error) incluso si rclone aún no reporta un porcentaje numérico.
+
+## [1.5.7] - 2026-03-26
+### Añadido
+- **Proceso reactivo Rclone**: Cada servicio Rclone utiliza ahora un `ProcessWorker` en `QThread` con `PYTHONUNBUFFERED=1`, `--progress`, `--stats 1s`, `--stats-one-line` y `--use-json-log`; el worker emite `DEBUG: Detectado X% para …` en la consola para validar el parser y comunica el ID exacto del widget (`rclone:<nombre>`) mediante la señal `update_ui`.
+### Mejorado
+- **Parser y UI multicolor**: El parser consume JSON o la expresión `([0-9]+)\s*%`, el `CircularProgress` gana eventos (`start`, `warning`, `error`, `progress`) con colores e iconos y, cuando se dispara “Sincronizando”, el anillo pasa a azul inmediatamente sin esperar el primer porcentaje.
+- **Sincronización manual sin duplicar lógica**: `sync_ready_services` sigue llamando a `manager.sync()`, de modo que las señales del worker alimentan exactamente los mismos anillos y estados que las ejecuciones programadas.
+
 ## [1.5.6] - 2026-03-18
 ### Añadido
 - **Identidad Solución Propietaria FerDev**: `COPYRIGHT.txt`, `TERMS.md`, `FAQ.md` y `USERGUIDE.md` presentan la arquitectura del wrapper propietario sobre Rclone y la licencia de evaluación privada con derechos reservados.

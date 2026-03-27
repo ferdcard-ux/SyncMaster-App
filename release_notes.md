@@ -1,3 +1,12 @@
+## [1.6.0] - 2026-03-27
+### Añadido
+- **Filtros Globales y Silenciador de Symlinks**: Automatización del archivo `rclone_filters.txt` y flag `--skip-links` para evitar errores técnicos irrelevantes en el panel.
+- **Estética Curva y Dashboard Sincronizado**: Los widgets adoptan `RoundCap`, orientación a las 12:00 y los contadores del dashboard se tiñen según su tipo (Completados=Verde, Advertencias=Naranja, Errores=Rojo).
+
+### Mejorado
+- **Gramática de Estado**: Transición gramatical "Sincronizando" (Azul) a "Sincronizado" (Verde), centrando milimétricamente los widgets en el layout.
+- **Monitor de Actividad**: Reajuste de dimensiones del mini-log (+60% ancho) y tipografía de 12pt para facilitar la lectura rápida.
+
 ## [1.5.6] - 2026-03-18
 ### Añadido
 - **Identidad Propietaria FerDev**: la documentación y los avisos legales ( `README.md`, `USERGUIDE.md`, `TERMS.md`, `COPYRIGHT.txt`, `FAQ.md`) definen la solución como una plataforma cerrada de evaluación privada y mantienen los derechos reservados del autor.
