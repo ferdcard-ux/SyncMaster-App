@@ -1,3 +1,9 @@
+## [1.6.1] - 2026-03-27
+### Fixed
+- **Estabilidad y Diagnóstico**: Implementación de `crash.log` para captura de excepciones fatales y endurecimiento del bucle de procesos contra errores de codificación.
+- **Limpieza de Hilos**: Uso de `deleteLater` para asegurar la liberación de memoria de los procesos finalizados.
+- **Lógica de Métricas**: Los contadores del dashboard ahora evitan incrementos duplicados por polling, mejorando la precisión de "Archivos Completados".
+
 ## [1.6.0] - 2026-03-27
 ### Añadido
 - **Filtros Globales y Silenciador de Symlinks**: Automatización del archivo `rclone_filters.txt` y flag `--skip-links` para evitar errores técnicos irrelevantes en el panel.

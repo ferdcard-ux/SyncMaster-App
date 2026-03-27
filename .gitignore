@@ -1,18 +1,38 @@
-# 1. Bloquear absolutamente TODO por defecto
-/*
-
-# 2. Permitir ÚNICAMENTE los archivos de la vitrina (excepciones)
-!.gitignore
-!README.md
-!desplegar.sh
-!CHANGELOG.md
-!release_notes.md
-!COPYRIGHT.txt
-!TERMS.md
-!USERGUIDE.md
-!FAQ.md
-
-# 3. Mantener bloqueados los temporales aunque se llamen igual
+# --- Entorno de Python ---
+venv/
+.venv/
+env/
 __pycache__/
+*.py[cod]
+*$py.class
+
+# --- Herramientas de Desarrollo ---
 .vscode/
+.idea/
+*.code-workspace
+.DS_Store
+
+# --- Archivos de Construcción y Binarios ---
+build/
+dist/
+*.spec
+squashfs-root/
+appimagetool.AppImage
+*.AppImage
+*.squashfs
+AppDir/
+
+# --- Logs y Datos Temporales ---
 *.log
+.cache/
+.history/
+# --- Secretos y claves ---
+*.env
+*.key
+*.pem
+*.token
+*.crt
+*.der
+*.p12
+credentials.json
+*.credentials

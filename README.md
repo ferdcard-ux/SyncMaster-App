@@ -1,6 +1,6 @@
-# SyncMaster-v1.6.0-Private
+# SyncMaster-v1.6.1-Private
 
-SyncMaster-v1.5.6-Private es un sistema de sincronización seguro y cerrado diseñado para escenarios privados. Esta edición no admite contribuciones públicas ni redistribución sin autorización; se entrega exclusivamente como Evaluación Privada / Propietaria de FerDev.
+**SyncMaster v1.6.1-Private** es un sistema de sincronización seguro y cerrado diseñado para escenarios privados de alta disponibilidad. Esta edición de estabilidad incluye protecciones avanzadas contra fallos silenciosos y optimización de recursos en segundo plano.
 
 ## Requisitos de instalación
 - Linux de 64 bits (Zorin OS, Ubuntu o similares) con Python 3.10 y PyQt6 disponibles.

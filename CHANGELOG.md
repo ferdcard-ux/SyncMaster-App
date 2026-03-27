@@ -1,5 +1,13 @@
 # Registro de Cambios - Sync Master
 
+## [1.6.1] - 2026-03-27
+### Fixed
+- **Estabilidad Crítica**: Implementación de un robusto sistema de captura de excepciones globales para prevenir y diagnosticar cierres silenciosos.
+- **Gestión de Hilos**: Refuerzo en el ciclo de vida de los hilos de `rclone` (ProcessWorker), incluyendo manejo de errores de codificación Unicode en la salida de consola.
+- **Fuga de Memoria**: Optimización de la limpieza de recursos C++ mediante el uso de `deleteLater`, asegurando una ejecución fluida a largo plazo.
+- **Sincronización de Contadores**: Corregido bug que duplicaba el conteo de "Archivos Completados" durante una misma sesión de sincronización.
+- **Recuperación Automática**: Mejora en la lógica de terminación de procesos para evitar hilos huérfanos o bloqueos en el hilo principal.
+
 ## [1.6.0] - 2026-03-27
 ### Añadido
 - **Filtros Globales Automáticos**: Implementación de autogeneración del archivo `~/.config/syncmaster/rclone_filters.txt` con reglas estándar (basura, cachés, temporales y AppDirs) para garantizar la limpieza de sincronización en cualquier equipo.
