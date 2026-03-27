@@ -1,5 +1,11 @@
 # Registro de Cambios - Sync Master
 
+## [1.6.3] - 2026-03-27
+### Added
+- **Logging Nuclear**: Redirección de `stdout` y `stderr` a `crash.log` con forzado de `flush` para capturar fallos críticos de C++/Qt que antes dejaban el log vacío.
+- Nivel de logging incrementado a `DEBUG` para mayor detalle en diagnósticos.
+- Manejador global `sys.excepthook` para capturar cualquier excepción fuera del bucle principal.
+
 ## [1.6.2] - 2026-03-27
 ### Fixed
 - **Hotfix de Ejecución (AppImage)**: Corregido error fatal de "Read-only file system" al reubicar el archivo `crash.log` y los filtros de rclone en la ruta persistente `~/.config/sync_master/`.

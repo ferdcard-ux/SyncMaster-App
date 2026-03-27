@@ -1,39 +1,32 @@
-# --- SyncMaster Landing GitIgnore (Professional Release Edition) ---
-
-# Ignore Python and Dev source code
+# --- Entorno de Python ---
+venv/
+.venv/
+env/
 __pycache__/
 *.py[cod]
-main.py
-version.py
+*$py.class
 
-# Ignore source directories
-managers/
-ui/
-assets/
-build/
-dist/
-AppDir/
-squashfs-root/
-.pytest_cache/
+# --- Herramientas de Desarrollo ---
 .vscode/
 .idea/
 *.code-workspace
+.DS_Store
 
-# Ignore scripts used for building/deploying
-*.sh
+# --- Archivos de Construcción y Binarios ---
+build/
+dist/
 *.spec
+squashfs-root/
+appimagetool.AppImage
+*.AppImage
+*.squashfs
+AppDir/
 
-# Ignore logs and temporal data
+# --- Logs y Datos Temporales ---
 *.log
 .cache/
 .history/
-
-# --- Release Assets handling ---
-# We keep AppImages in GitHub RELEASES, not in the main branch.
-*.AppImage
-*.squashfs
-
-# Security and secrets
+# --- Secretos y claves ---
 *.env
 *.key
 *.pem
@@ -43,7 +36,3 @@ squashfs-root/
 *.p12
 credentials.json
 *.credentials
-
-# OS files
-.DS_Store
-Thumbs.db
