@@ -1,0 +1,49 @@
+# --- SyncMaster Landing GitIgnore (Professional Release Edition) ---
+
+# Ignore Python and Dev source code
+__pycache__/
+*.py[cod]
+main.py
+version.py
+
+# Ignore source directories
+managers/
+ui/
+assets/
+build/
+dist/
+AppDir/
+squashfs-root/
+.pytest_cache/
+.vscode/
+.idea/
+*.code-workspace
+
+# Ignore scripts used for building/deploying
+*.sh
+*.spec
+
+# Ignore logs and temporal data
+*.log
+.cache/
+.history/
+
+# --- Release Assets handling ---
+# We keep AppImages in GitHub RELEASES, not in the main branch.
+*.AppImage
+*.squashfs
+
+# Security and secrets
+*.env
+*.key
+*.pem
+*.token
+*.crt
+*.der
+*.p12
+credentials.json
+*.credentials
+
+# OS files
+.DS_Store
+Thumbs.db
