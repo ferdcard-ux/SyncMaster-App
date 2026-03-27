@@ -1,5 +1,10 @@
 # Registro de Cambios - Sync Master
 
+## [1.6.4] - 2026-03-27
+### Fixed
+- **Estabilización de Hilos (ProcessWorker)**: Corregido error `RuntimeError: wrapped C/C++ object has been deleted` que causaba cierres silenciosos al intentar interactuar con trabajadores ya eliminados por Qt.
+- **Blindaje de Managers**: Implementada desconexión de señales y protección de `wait()` mediante bloques `try-except` en `LocalSyncManager` y `RcloneServiceManager`.
+
 ## [1.6.3] - 2026-03-27
 ### Added
 - **Logging Nuclear**: Redirección de `stdout` y `stderr` a `crash.log` con forzado de `flush` para capturar fallos críticos de C++/Qt que antes dejaban el log vacío.

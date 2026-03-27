@@ -1,14 +1,12 @@
-# Notas de Versión - SyncMaster v1.6.3 (Diagnostic Hotfix)
+# Notas de Versión - SyncMaster v1.6.4 (Stability Hotfix)
 
-Esta versión es un parche de diagnóstico crítico diseñado para capturar la causa de los cierres silenciosos que no dejaban rastro en los registros anteriores.
+Esta versión resuelve de manera definitiva el problema de los "cierres silenciosos" identificados mediante la telemetría de la v1.6.3.
 
-### Lo nuevo en v1.6.3:
-- **Redirección de Consola (Nuclear Logging)**: Todas las salidas del proceso (`stdout` y `stderr`) se redirigen ahora directamente a `crash.log`. Esto incluye fallos de bajo nivel de Qt o C++ que saltan fuera del manejador de excepciones de Python.
-- **Forzado de Escritura (Flush)**: Cada mensaje escrito en el log se fuerza a disco inmediatamente. Esto garantiza que el log no quede vacío si el proceso es terminado abruptamente.
-- **Modo Debug**: Se ha incrementado el nivel de detalle de los registros a `DEBUG` para una telemetría completa de la inicialización y el ciclo de vida de los servicios.
-- **Gancho de Excepciones**: Se implementó `sys.excepthook` para capturar errores que ocurran fuera del bucle principal de eventos.
+### Lo nuevo en v1.6.4:
+- **Blindaje de Ciclo de Vida de Trabajadores**: Se corrigió una excepción `RuntimeError` que ocurría al intentar sincronizar servicios mientras Qt todavía estaba liberando memoria de procesos anteriores.
+- **Gestión Segura de Hilos**: Implementada desconexión de señales y manejo de excepciones en la destrucción de hilos, asegurando que el inicio de una nueva sincronización no colisione con el cierre de la anterior.
+- **Estabilidad Incrementada**: Se eliminaron las condiciones de carrera (Race Conditions) que provocaban que la aplicación se cerrara abruptamente sin dejar rastro en los registros básicos.
 
-### Instrucciones para Diagnóstico:
-Si la aplicación se cierra, por favor revisa el archivo en:
-`~/.config/sync_master/crash.log`
+### Recomendación:
+Se recomienda a todos los usuarios actualizar a esta versión para garantizar una operación continua en segundo plano sin interrupciones.
 🏁
