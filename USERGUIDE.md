@@ -1,4 +1,4 @@
-# Manual de Usuario: Sync Master v1.6.0
+# Manual de Usuario: Sync Master v1.6.5
 **Desarrollado por Miguel Fernando Cárdenas Alvear (FerDev)** Solución Propietaria de Sincronización de Alta Resiliencia.
 
 ---
@@ -97,6 +97,8 @@ Para garantizar el funcionamiento óptimo de Sync Master v1.6.0, el entorno debe
 * **Dependencias:** Motor Rclone configurado y, para servicios específicos, el cliente de OneDrive.
 * **Interfaz:** Entorno gráfico con soporte para temas oscuros (GTK/GNOME).
 * **Conectividad:** Acceso a internet para la validación de tokens de API y transferencia de datos.
+
+> **Versiones:** Este manual describe la distribución propietaria Sync Master v1.6.5, que incluye el parche definitivo contra cierres silenciosos del worker en segundo plano.
 
 ---
 

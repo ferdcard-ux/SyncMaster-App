@@ -1,5 +1,11 @@
 # Registro de Cambios - Sync Master
 
+-## [1.6.5] - 2026-04-11
++### Fixed
++- **Resistencia del worker**: El `ProcessWorker` ahora se limpia con `stop()` + `wait()` sin que Qt destruya el objeto antes de tiempo; los managers basados en Rclone y `LocalSyncManager` implementan el mismo patrón, lo que evita que la aplicación se cierre silenciosamente tras ciclos prolongados y garantiza que el servicio siga en ejecución durante horas.
++- **Monitor sin interrupciones**: El filtro inteligente sigue activo, el panel de estado no pierde visibilidad de OneDrive o Mega cuando se fuerza una sincronización manual, y el guardián de lockfiles sigue limitando los fallos a casos verdaderos.
++- **Stress validado**: Se dejó la app minimizada durante horas y el log sólo registró `DEBUG: Detectado X% para...`, lo que demuestra que los hilos persisten y los servicios no se detienen.
++
 ## [1.6.4] - 2026-03-27
 ### Fixed
 - **Estabilización de Hilos (ProcessWorker)**: Corregido error `RuntimeError: wrapped C/C++ object has been deleted` que causaba cierres silenciosos al intentar interactuar con trabajadores ya eliminados por Qt.

@@ -1,12 +1,11 @@
-# Notas de Versión - SyncMaster v1.6.4 (Stability Hotfix)
+# Notas de versión - SyncMaster v1.6.5 (Worker Resiliente)
 
-Esta versión resuelve de manera definitiva el problema de los "cierres silenciosos" identificados mediante la telemetría de la v1.6.3.
+Sync Master v1.6.5 refuerza la persistencia de ejecución y documenta claramente la estabilidad conseguida durante las pruebas de estrés.
 
-### Lo nuevo en v1.6.4:
-- **Blindaje de Ciclo de Vida de Trabajadores**: Se corrigió una excepción `RuntimeError` que ocurría al intentar sincronizar servicios mientras Qt todavía estaba liberando memoria de procesos anteriores.
-- **Gestión Segura de Hilos**: Implementada desconexión de señales y manejo de excepciones en la destrucción de hilos, asegurando que el inicio de una nueva sincronización no colisione con el cierre de la anterior.
-- **Estabilidad Incrementada**: Se eliminaron las condiciones de carrera (Race Conditions) que provocaban que la aplicación se cerrara abruptamente sin dejar rastro en los registros básicos.
+### Lo nuevo en v1.6.5:
+- **Gestión segura del worker**: El `ProcessWorker` y los managers que dependen de él ahora llaman a `stop()` y `wait()` antes de recrear cualquier hilo; Qt ya no destruye los objetos en el hilo principal ni provoca cierres silenciosos tras largas sesiones.
+- **Persistencia validada**: Dejamos la aplicación en modo minimizado durante horas y el log sólo registró líneas como `DEBUG: Detectado X% para...`, sin errores críticos ni cierres. El servicio permanece vivo incluso tras largos intervalos de sync continuos.
+- **Monitor sin interrupciones**: El sistema de logging mantiene el filtro inteligente y el panel de estados muestra la actividad de OneDrive, Mega y los demás servicios sin perder registros cuando se dispara una sincronización manual.
 
 ### Recomendación:
-Se recomienda a todos los usuarios actualizar a esta versión para garantizar una operación continua en segundo plano sin interrupciones.
-🏁
+Actualiza a esta versión para garantizar que tus tareas de sincronización no se interrumpan y que el dashboard refleje correctamente los ciclos en curso.
