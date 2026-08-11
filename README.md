@@ -1,4 +1,4 @@
-# SyncMaster v1.9.0 — Linux (Bunker)
+# SyncMaster v1.9.0 — Linux
 
 **SyncMaster v1.9.0** es la versión Linux de la solución propietaria de sincronización. Usa `rclone` como motor único para todos los proveedores de nube (Google Drive, OneDrive, Mega, Dropbox, etc.) con monitoreo en tiempo real, auto-recuperación, control de estados protegidos, seguimiento visual de progreso, información de quota por servicio y montaje remoto.
 
@@ -55,15 +55,6 @@ syncmaster
 ```
 
 O desde el menú de aplicaciones: buscar "SyncMaster".
-
-### Desde fuente
-
-```bash
-git clone git@github.com:ferdcard-ux/SyncMasterPython.git
-cd SyncMaster-Bunker
-pip install -r requirements.txt
-python main.py
-```
 
 ## Guía de configuración
 
