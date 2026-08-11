@@ -1,4 +1,4 @@
-# Manual de Usuario: Sync Master v1.6.5
+# Manual de Usuario: Sync Master v1.9.0
 **Desarrollado por Miguel Fernando Cárdenas Alvear (FerDev)** Solución Propietaria de Sincronización de Alta Resiliencia.
 
 ---
@@ -12,7 +12,15 @@
 # 2. Características principales
 - Tema Dark Renovado: Esquema #1E1E1E / #2D2D2D con tipografía generosa. Widgets circulares con **puntas redondeadas (RoundCap)**, carril de fondo gris y orientación a las 12:00.
 - Gramática Reactiva: El centro de los anillos cambia de **"Sincronizando"** (Azul) a **"Sincronizado"** (Verde) al finalizar con éxito.
-- Dashnoard Sincronizado: Los contadores de Archivos, Advertencias y Errores están **color-coded** (Verde, Naranja, Rojo) y alineados milimétricamente.
+- Dashboard Sincronizado: Los contadores de Archivos, Advertencias y Errores están **color-coded** (Verde, Naranja, Rojo) y alineados milimétricamente.
+- **Montaje remoto**: botones "Montar"/"Desmontar" en cada tarjeta cloud para exponer el remote como unidad FUSE; desmontaje automático al salir.
+- **Anillo clicable**: clic sobre el anillo pausa/reanuda la sincronización; al pasar el cursor se muestra la acción.
+- **Contadores interactivos**: pulsar un contador abre un detalle filtrado por categoría (archivos completados con nombres, advertencias o errores), agrupado por servicio.
+- **Estados en lenguaje cotidiano**: los tooltips de las tarjetas explican cada estado sin tecnicismos.
+- **Tarjetas autocentradas**: con pocos servicios el bloque queda centrado.
+- **Auto-ajuste de ritmo**: ante límites de API el servicio reduce su concurrencia progresivamente y se recupera solo.
+- **Client ID propio**: usa tu propio Client ID/Secret en GDrive y OneDrive con reconexión automática.
+- **Exclusiones por proveedor**: presets de exclusión por defecto y adicionales para cada proveedor.
 - Exclusiones Globales: Autogeneración de filtros en `~/.config/syncmaster/rclone_filters.txt` y silenciado automático de enlaces simbólicos mediante `--skip-links`.
 - Guardias Rclone para la nube: `--transfers 2`, `--checkers 4`, `--tpslimit 5`, y `--drive-chunk-size 64M`.
 
@@ -43,7 +51,9 @@ Cada servicio configurado se presenta en una tarjeta que contiene:
 * **Modo:** Muestra la lógica de transferencia seleccionada (Bisync ↔, Sync ↓, o Copy ↑).
 * **Intervalo:** Tiempo programado entre ciclos automáticos.
 * **Última Sinc:** Marca de tiempo exacta de la última actividad exitosa.
-* **Botón Pausar/Reanudar:** Permite detener o activar un servicio específico de forma individual.
+* **Botón Pausar/Reanudar (servicio local):** Permite detener o activar un servicio local de forma individual.
+* **Botón Montar/Desmontar (servicios cloud):** Exponer el remote como punto de montaje FUSE o quitarlo; su estado se refleja en color y texto.
+* **Anillo de progreso clicable:** Un clic pausa o reanuda la sincronización automática del servicio.
 
 ## B. Registro de Actividad y Errores
 Consola técnica que filtra el ruido innecesario para mostrar solo:
@@ -62,43 +72,95 @@ Consola técnica que filtra el ruido innecesario para mostrar solo:
 ---
 
 # 5. Configuración y Personalización
-El panel de configuración está dividido en pestañas para una gestión granular.
+El panel de configuración ahora se organiza en tres pestañas principales:
 
-## A. Gestión de Servicios (Pestañas Individuales)
-* **Habilitar [Nombre del Servicio]:** Casilla de verificación para activar o desactivar el ciclo de sincronización de ese servicio sin borrar sus datos.
+## A. Servicios
+La pestaña `Servicios` funciona como un selector vertical. Al elegir un servicio, su tarjeta de configuración se muestra en el panel derecho.
+
+Cada servicio permite configurar:
+* **Habilitar:** Activa o desactiva el ciclo sin borrar datos.
 * **Directorio Local/Remoto:** Define las rutas de origen y destino.
-* **Intervalo:** Ajuste de la frecuencia de sincronización (en minutos).
-* **Exclusiones:** Cuadro de texto para definir patrones de archivos que no deben sincronizarse (ej: target/**, __pycache__/**, *.tmp). Soporta comentarios con # para organizar tus reglas.
-* **Modo de Sincronización:** Menú desplegable para elegir entre bisync, sync o copy.
+* **Intervalo:** Ajuste de la frecuencia de sincronización en minutos.
+* **Exclusiones:** Un patrón por línea para omitir archivos o rutas.
+* **Modo de Sincronización:** Selección entre bisync, sync o copy.
 
-## B. Servicios Rclone (Administración)
+### Exclusiones: cómo escribirlas correctamente
+Las exclusiones se escriben en el campo `Exclusiones` de cada servicio y se interpretan de forma independiente por servicio. La regla general es simple: escribe un patrón por línea y usa rutas o nombres relativos al directorio que sincroniza ese servicio, no rutas absolutas del sistema.
+
+Para servicios basados en Rclone:
+* Cada línea se convierte en una regla `--exclude`.
+* El patrón se evalúa contra la ruta que el servicio está sincronizando.
+* Si el servicio sincroniza `/home/usuario/DEV`, entonces `papirus-icon-theme/**` excluye `/home/usuario/DEV/papirus-icon-theme`.
+
+Ejemplos útiles para Rclone:
+```text
+*.tmp
+*.bak
+node_modules/**
+cache/**
+papirus-icon-theme/**
+```
+
+Ejemplos más precisos:
+```text
+target/**
+__pycache__/**
+.git/**
+.DS_Store
+```
+
+Para servicios `bisync`, `sync` o `copy` basados en Rclone, estas exclusiones afectan el contenido que se reporta al motor. Si el patrón no coincide con la ruta relativa correcta, el archivo o carpeta seguirá sincronizándose.
+
+Para OneDrive:
+* La app traduce el texto de exclusiones a `skip_file` y `skip_dir` en la configuración del cliente.
+* Recomendable usar patrones simples y consistentes, por ejemplo `*.tmp`, `node_modules/` o `~*`.
+* Si agregas una carpeta completa, usa tanto el nombre de la carpeta como su contenido, por ejemplo:
+```text
+MiCarpeta/
+MiCarpeta/**
+```
+
+Buenas prácticas:
+* Evita rutas absolutas como `/home/usuario/...` dentro del campo de exclusiones.
+* Usa patrones relativos al punto que sincroniza el servicio.
+* Mantén una exclusión por línea para que la app la procese de forma limpia.
+* Verifica el nombre exacto de la carpeta, incluyendo mayúsculas y minúsculas si tu sistema las distingue.
+
+## B. Agregar Servicios
 Desde esta pestaña puedes:
-* **Añadir Servicio:** Inicia un asistente interactivo para configurar nuevos proveedores de nube.
-* **Eliminar Seleccionado:** Quita servicios de la lista de gestión.
-* **Tabla de Resumen:** Muestra el nombre, proveedor y ruta local de todos los servicios Rclone registrados.
+* **Servicios RClone:** Mantiene el flujo actual para crear proveedores de nube (con exclusiones por proveedor preconfiguradas).
+* **Servicio Local:** Permite crear un nuevo servicio local con la misma lógica del servicio local principal.
 
-## C. Pestaña General
+## C. Client ID propio (Google Drive / OneDrive)
+En los formularios de GDrive, OneDrive y servicios Rclone encontrarás el botón **"Usar tu propio Client ID (reconectar)"**:
+1. Pega tu Client ID y Client Secret de la consola del proveedor.
+2. La app los aplica con `rclone config update --all`.
+3. Se abre la terminal interactiva de `rclone config reconnect` para volver a autenticar.
+4. Al terminar, el servicio queda reconectado con tu Client ID.
+
+## D. General
 * **Inicio Automático:** Opción para que la aplicación arranque con el sistema operativo y se mantenga en la bandeja de notificaciones.
 
 ---
 
 # 6. Funciones de Guardia y Seguridad
-* **API Guardian:** Si se detecta un error de "Quota Exceeded" en nubes como Google Drive, la app entra en modo "Limitado (API)" y pausa la actividad por 5 minutos para evitar bloqueos de cuenta.
+* **API Guardian + Ritmo adaptativo:** Si se detecta "Quota Exceeded", "Error 429" o "rate limit exceeded", la app entra en modo "Limitado (API)" y reduce progresivamente el ritmo de transferencia (2/4/5 → 1/2/3 → 1/1/1), reintentando en 2 minutos; el nivel se persiste en `config.json`.
 * **Connectivity Guard:** Verifica la conexión a los servidores de Microsoft o Google antes de iniciar, evitando intentos fallidos sin internet.
 * **Auto-Sanación:** Detección automática de duplicados (dedupe) y limpieza de archivos de bloqueo huérfanos.
+* **Client ID propio:** Reconexión con tu propio Client ID/Secret en GDrive y OneDrive.
 
 ---
 
 # 7. Requisitos del Sistema
-Para garantizar el funcionamiento óptimo de Sync Master v1.6.0, el entorno debe cumplir con:
+Para garantizar el funcionamiento óptimo de Sync Master v1.9.0, el entorno debe cumplir con:
 
 * **Sistema Operativo:** Linux (Optimizado para Zorin OS y distribuciones basadas en Ubuntu/Debian).
-* **Arquitectura:** x86_64 para el paquete AppImage.
-* **Dependencias:** Motor Rclone configurado y, para servicios específicos, el cliente de OneDrive.
+* **Arquitectura:** x86_64 (paquete `.deb`).
+* **Dependencias:** `python3 >= 3.10`, `python3-pyqt6` y motor `rclone >= 1.65` (se instalan automáticamente con el `.deb`).
 * **Interfaz:** Entorno gráfico con soporte para temas oscuros (GTK/GNOME).
 * **Conectividad:** Acceso a internet para la validación de tokens de API y transferencia de datos.
 
-> **Versiones:** Este manual describe la distribución propietaria Sync Master v1.6.5, que incluye el parche definitivo contra cierres silenciosos del worker en segundo plano.
+> **Versiones:** Este manual describe la distribución propietaria Sync Master v1.9.0, que incorpora montaje remoto, anillo clicable, contadores interactivos con desglose, auto-ajuste de ritmo ante cuota, asistente de Client ID propio y tarjetas autocentradas.
 
 ---
 

@@ -1,11 +1,42 @@
 # Registro de Cambios - Sync Master
 
--## [1.6.5] - 2026-04-11
-+### Fixed
-+- **Resistencia del worker**: El `ProcessWorker` ahora se limpia con `stop()` + `wait()` sin que Qt destruya el objeto antes de tiempo; los managers basados en Rclone y `LocalSyncManager` implementan el mismo patrón, lo que evita que la aplicación se cierre silenciosamente tras ciclos prolongados y garantiza que el servicio siga en ejecución durante horas.
-+- **Monitor sin interrupciones**: El filtro inteligente sigue activo, el panel de estado no pierde visibilidad de OneDrive o Mega cuando se fuerza una sincronización manual, y el guardián de lockfiles sigue limitando los fallos a casos verdaderos.
-+- **Stress validado**: Se dejó la app minimizada durante horas y el log sólo registró `DEBUG: Detectado X% para...`, lo que demuestra que los hilos persisten y los servicios no se detienen.
-+
+## [1.9.0] - 2026-08-10
+### Added
+- **Montaje remoto**: Botones "Montar"/"Desmontar" en las tarjetas de servicios cloud que exponen el remote como punto de montaje FUSE con rclone (`--vfs-cache-mode writes`, `--dir-cache-time 1h`).
+- **Anillo de progreso clicable**: Clic sobre el anillo de cada servicio pausa/reanuda la sincronización automática; al pasar el cursor se muestra la acción "Pausar"/"Reanudar".
+- **Seguimiento de estado de montaje**: Señal `mount_changed` en los gestores de GDrive, OneDrive y servicios Rclone que sincroniza el texto/color del botón con el estado real del montaje.
+- **Desmontaje automático al salir**: Cada gestor desmonta su punto de montaje durante el apagado si estaba activo.
+- **Contadores de estadísticas** reconstruidos como `QFrame` clicable (antes `QPushButton` con layout interno que superponía el número y el título y recortaba el valor).
+- **Captura precisa de archivos completados**: `TRANSFERRED_FILE_PATTERN` detecta archivos transferidos (`Copied`/`Updated`/`Moved`/`Renamed`, excluye "Moved to trash"); nueva señal `stats_event(servicio, categoría, detalle)` en los cuatro gestores.
+- **Contadores desacoplados del porcentaje**: Completados/Advertencias/Errores solo cuentan eventos reales del log (archivos, líneas de advertencia y error), no `percent == 100` ni eventos transitorios.
+- **Desglose filtrado por contador**: `StatsDetailDialog` recibe la categoría pulsada — Completados con lista de nombres de archivo, Advertencias y Errores con sus líneas (texto seleccionable), agrupados por servicio.
+- **Tooltips dinámicos** en controles activos: Montar/Desmontar, Pausar/Reanudar, anillo de progreso y flechas de navegación.
+- **Tarjetas autocentradas**: `addStretch()` antes y después del bloque de tarjetas para centrarlas con pocos servicios.
+- **Exclusiones por proveedor**: `core/exclusion_presets.py` con presets por defecto y adicionales para `drive`/`onedrive`/`local`, inyectados al crear servicios Rclone.
+- **Filtro de ruido de estadísticas**: patrón compartido `STATS_NOISE_PATTERN` que descarta líneas de `--stats` sin transferencia activa; stats de `--stats 1s` a `--stats 5s`.
+- **Auto-ajuste de ritmo de transferencia**: tabla `RATE_LEVELS` (transfers/checkers/tpslimit 2/4/5 → 1/2/3 → 1/1/1), detección ampliada `quota_detected()` (Error 403, rate limit, 429), estado "Ritmo reducido", reintento en 2 min y persistencia en `config.json`.
+- **Asistente de Client ID propio**: `core/rclone_client.py` y `ui/client_id_dialog.py` para aplicar tu Client ID/Secret y reconectar con `rclone config reconnect`.
+- **Estados en lenguaje cotidiano**: `STATUS_IN_PLAIN_LANGUAGE` traduce estados técnicos a explicaciones claras en los tooltips de las tarjetas.
+
+## [1.7.0] - 2026-05-18
+### Added
+- **Servicios locales dinámicos**: Se habilitó la creación de múltiples servicios locales adicionales desde la configuración.
+- **Panel de configuración reorganizado**: Se introdujeron las pestañas `Servicios`, `Agregar Servicios` y `General`, con selector vertical y tarjetas embebidas.
+- **Registros detallados escalables**: La ventana de logs ahora usa navegación vertical para soportar más servicios.
+
+### Fixed
+- **Cierre ordenado global**: Se reforzó el apagado de workers, procesos y locks para evitar cierres silenciosos y respetar el resto del sistema.
+
+## [1.6.6] - 2026-04-19
+### Fixed
+- **Gestión de hilos (QThread)**: Se forzó el uso de `QueuedConnection` para todas las señales de `ProcessWorker`. Esto garantiza que la limpieza de objetos ocurra exclusivamente en el hilo principal, eliminando el error "Destroyed while thread is still running" que causaba cierres silenciosos tras ciclos de sincronización repetidos o auto-recuperaciones (--resync).
+- **Persistencia de iconos en AppImage**: Se han implementado las mejores prácticas de empaquetado (.DirIcon y rutas hicolor en /usr/share/icons) dentro del AppImage, garantizando que el icono se visualice correctamente en cualquier sistema Linux tras la integración sin depender de rutas externas.
+
+## [1.6.5] - 2026-04-11
+### Fixed
+- **Resistencia del worker**: El `ProcessWorker` ahora se limpia con `stop()` + `wait()` sin que Qt destruya el objeto antes de tiempo; los managers basados en Rclone y `LocalSyncManager` implementan el mismo patrón, lo que evita que la aplicación se cierre silenciosamente tras ciclos prolongados y garantiza que el servicio siga en ejecución durante horas.
+- **Monitor sin interrupciones**: El filtro inteligente sigue activo, el panel de estado no pierde visibilidad de OneDrive o Mega cuando se fuerza una sincronización manual, y el guardián de lockfiles sigue limitando los fallos a casos verdaderos.
+- **Stress validado**: Se dejó la app minimizada durante horas y el log sólo registró `DEBUG: Detectado X% para...`, lo que demuestra que los hilos persisten y los servicios no se detienen.
 ## [1.6.4] - 2026-03-27
 ### Fixed
 - **Estabilización de Hilos (ProcessWorker)**: Corregido error `RuntimeError: wrapped C/C++ object has been deleted` que causaba cierres silenciosos al intentar interactuar con trabajadores ya eliminados por Qt.

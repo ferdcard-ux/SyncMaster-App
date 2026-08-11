@@ -1,11 +1,19 @@
-# Notas de versión - SyncMaster v1.6.5 (Worker Resiliente)
+# Notas de versión - SyncMaster v1.9.0 (Montaje remoto y pulido)
 
-Sync Master v1.6.5 refuerza la persistencia de ejecución y documenta claramente la estabilidad conseguida durante las pruebas de estrés.
+Sync Master v1.9.0 añade el montaje remoto de servicios cloud, un anillo de progreso clicable y una fase de pulido completa del monitoreo y la resiliencia.
 
-### Lo nuevo en v1.6.5:
-- **Gestión segura del worker**: El `ProcessWorker` y los managers que dependen de él ahora llaman a `stop()` y `wait()` antes de recrear cualquier hilo; Qt ya no destruye los objetos en el hilo principal ni provoca cierres silenciosos tras largas sesiones.
-- **Persistencia validada**: Dejamos la aplicación en modo minimizado durante horas y el log sólo registró líneas como `DEBUG: Detectado X% para...`, sin errores críticos ni cierres. El servicio permanece vivo incluso tras largos intervalos de sync continuos.
-- **Monitor sin interrupciones**: El sistema de logging mantiene el filtro inteligente y el panel de estados muestra la actividad de OneDrive, Mega y los demás servicios sin perder registros cuando se dispara una sincronización manual.
+### Lo nuevo en v1.9.0:
+- **Montaje remoto**: Botones "Montar"/"Desmontar" en cada tarjeta cloud para exponer el remote como unidad FUSE; desmontaje automático al cerrar la app.
+- **Anillo de progreso clicable**: Pausa/reanuda la sincronización con un clic; el hover muestra la acción.
+- **Contadores precisos**: "Archivos Completados" cuenta archivos reales transferidos (Copied/Updated/Moved/Renamed) desde el log; ya no depende del porcentaje del anillo.
+- **Desglose por contador**: Al pulsar cada contador ves solo su categoría (archivos con nombres, advertencias o errores), agrupada por servicio.
+- **Estados en lenguaje cotidiano** en los tooltips de las tarjetas.
+- **Tooltips** en todos los controles activos.
+- **Tarjetas autocentradas** con pocos servicios.
+- **Auto-ajuste de ritmo**: ante límites de API (Quota exceeded, 429, rate limit) el servicio reduce su concurrencia progresivamente y se recupera solo.
+- **Asistente de Client ID propio** para GDrive y OneDrive con reconexión automática.
+- **Exclusiones por proveedor** preconfiguradas al crear servicios Rclone.
+- **Filtro de ruido de estadísticas** para un monitor más limpio.
 
 ### Recomendación:
-Actualiza a esta versión para garantizar que tus tareas de sincronización no se interrumpan y que el dashboard refleje correctamente los ciclos en curso.
+Actualiza a esta versión para aprovechar el montaje remoto, el control directo sobre cada servicio y el monitoreo interactivo con contadores precisos.

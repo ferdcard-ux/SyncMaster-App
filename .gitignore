@@ -21,11 +21,24 @@ appimagetool.AppImage
 *.AppImage
 *.squashfs
 AppDir/
+runtime-x86_64
+
+# --- Empaquetado Debian ---
+deb-build/
+*.deb
+*.changes
+*.buildinfo
 
 # --- Logs y Datos Temporales ---
 *.log
 .cache/
 .history/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+coverage.xml
 # --- Secretos y claves ---
 *.env
 *.key

@@ -1,4 +1,4 @@
-# ❓ Preguntas Frecuentes (FAQ) - Sync Master v1.6.5
+# ❓ Preguntas Frecuentes (FAQ) - Sync Master v1.9.0
 **Soporte Técnico y Operativo de la Solución FerDev**
 
 ## 1. ¿Qué significan los iconos en el "Modo" de cada tarjeta?
@@ -8,7 +8,7 @@ Los iconos representan la dirección del flujo de tus datos:
 * **Copy ↑:** Respaldo de seguridad. Los archivos nuevos o modificados se suben, pero nunca se borran archivos de la nube, protegiéndote contra borrados accidentales en tu PC.
 
 ## 2. La aplicación dice "Estado: Limitado (API)" en color naranja. ¿Se rompió algo?
-No, es una función de protección activa. Significa que el proveedor de nube (como Google Drive) ha alcanzado su límite de peticiones por segundo (Quota exceeded). Sync Master pausará automáticamente ese servicio durante 5 minutos para evitar que bloqueen tu cuenta y reanudará el trabajo solo.
+No, es una función de protección activa. Significa que el proveedor de nube (como Google Drive) ha alcanzado su límite de peticiones por segundo (Quota exceeded, Error 429 o rate limit). Sync Master reduce automáticamente el ritmo de transferencia (transfers/checkers: 2/4 → 1/2 → 1/1) y reintenta en unos minutos; el nivel elegido se recuerda en `config.json` y se recupera solo cuando la API lo permite.
 
 ## 3. ¿Por qué algunos servicios dicen "Rclone" y otros "on-prem"?
 Es una distinción de la tecnología utilizada para conectar:
@@ -36,15 +36,28 @@ Totalmente. Sync Master es una solución propietaria privada que no almacena tus
 ## 9. ¿Qué sucede si pierdo la conexión a internet mientras sincronizo?
 El sistema Connectivity Guard detectará la pérdida de conexión y detendrá los intentos de subida para evitar errores innecesarios o bucles de re-sincronización fallidos. Una vez que internet regrese, la app retomará sus ciclos programados normalmente.
 
-## 10. ¿Cómo instalo y ejecuto el AppImage en Zorin OS?
-Al ser un formato portátil, no requiere una instalación tradicional, pero sí un par de pasos de preparación:
-* **Dar Permisos:** Haz clic derecho sobre el archivo `SyncMaster-v1.6.5-Private.AppImage`, ve a Propiedades > Permisos y marca la casilla "Permitir ejecutar el archivo como un programa".
-* **Integración al Menú:** Al ejecutarlo por primera vez, si tienes instalado [AppImageLauncher], el sistema te preguntará si deseas "Integrar y ejecutar." Esto creará automáticamente el lanzador en tu menú de aplicaciones.
-* **Ejecución Directa:** Si prefieres no integrarlo, simplemente haz doble clic para abrir la interfaz y comenzar a sincronizar.
+## 10. ¿Cómo instalo el paquete .deb en Zorin OS / Debian / Ubuntu?
+El entregable de v1.9.0 es un `.deb` nativo:
+* **Instalar:** `sudo dpkg -i syncmaster_1.9.0_amd64.deb` y luego `sudo apt-get install -f` si hay dependencias pendientes.
+* **Dependencias automáticas:** el instalador instala `python3-pyqt6` vía apt y descarga `rclone >= 1.65` desde rclone.org si no está presente.
+* **Ejecutar:** escribe `syncmaster` en la terminal o búscalo en el menú de aplicaciones como "SyncMaster".
 
-## 11. ¿Cómo agrego un nuevo proveedor de nube (ej. Mega, Dropbox, FTP)?
+## 11. ¿Cómo uso el botón "Montar/Desmontar" de una tarjeta cloud?
+El botón expone tu carpeta remota como un punto de montaje FUSE (unidad local) usando `rclone mount`. Al pulsar "Montar" la carpeta aparece en `~/.syncmaster/mounts/<servicio>/`; al pulsar "Desmontar" se libera. Al cerrar la aplicación todos los puntos de montaje activos se desmontan automáticamente. Requiere permisos de FUSE (por defecto en las distros actuales).
+
+## 12. ¿Qué muestra cada contador del panel de monitoreo?
+* **Archivos Completados:** cuenta archivos realmente transferidos (Copied/Updated/Moved/Renamed); al pulsarlo verás la lista de nombres por servicio.
+* **Advertencias:** líneas de advertencia/retry del log; al pulsarlo verás cada línea original.
+* **Errores:** líneas de error crítico; al pulsarlo verás cada línea original.
+Los números ya no dependen del porcentaje del anillo, solo de eventos reales del log.
+
+## 13. ¿Puedo usar mi propio Client ID en Google Drive o OneDrive?
+Sí. En la configuración de GDrive, OneDrive o servicios Rclone pulsa **"Usar tu propio Client ID (reconectar)"**, pega tu Client ID y Client Secret, y la app los aplica con `rclone config update --all` y abre la reconexión interactiva.
+
+## 14. ¿Cómo agrego un nuevo proveedor de nube (ej. Mega, Dropbox, FTP)?
 Sync Master es extensible gracias a su integración con el motor Rclone:
-* **Asistente de Configuración:** Ve a [Configuración] > [Servicios Rclone] y pulsa el botón "Añadir Servicio".
+* **Asistente de Configuración:** Ve a [Configuración] > [Agregar Servicios] y usa la opción correspondiente al tipo de servicio que quieras crear.
 * **Terminal Interactiva:** Se abrirá una ventana de comandos dentro de la propia aplicación donde podrás elegir el proveedor de una lista dinámica.
 * **Autorización:** Sigue los pasos que dicte la terminal (generalmente abrirá tu navegador para que inicies sesión en el servicio elegido).
+* **Exclusiones por proveedor:** el nuevo servicio recibe presets de exclusión por defecto adaptados a su proveedor.
 * **Finalización:** Una vez configurado en la terminal, el nuevo servicio aparecerá automáticamente como una tarjeta en tu panel principal y como una nueva pestaña de configuración para ajustar sus carpetas y exclusiones.
